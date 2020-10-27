@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace必须指向Dao接口 -->
+
+<mapper namespace="com.neuedu.crm.mapper.HomePageMapper">
+
+	<!-- 查询新增用户统计量 -->
+	 <select id="selectCountNewUser"  parameterType="map" resultType="HashMap" >
+   
+	    select date_format(createtime, '%m-%d') as date, count(*) as count 
+	    from t_user_info 
+	     where 1=1
+         <if test="beginDate!=null and beginDate!='' ">
+               <![CDATA[ and createtime > #{beginDate} ]]>
+            </if>
+            <if test="endDate!=null and endDate!='' ">
+               <![CDATA[ and createtime <= #{endDate} ]]>
+           </if>
+           <if test="day!=null and day!='' ">
+	  		 <![CDATA[and date_sub(curdate(), INTERVAL #{day} DAY) <= date(date_format(createtime, '%Y-%m-%d'))   ]]>
+	   		</if>
+	    group by date 
+	    order by date asc
+  </select>
+  
+  
+	<!-- 查询活跃用户统计量 -->
+	 <select id="selectCountActiveUser"  parameterType="map" resultType="HashMap" >
+	     select date_format(createDateTime, '%m-%d') as date, count(DISTINCT userId) as count 
+	    from count_game_startup 
+	    where 1=1
+         <if test="beginDate!=null and beginDate!='' ">
+               <![CDATA[ and createDateTime > #{beginDate} ]]>
+            </if>
+            <if test="endDate!=null and endDate!='' ">
+               <![CDATA[ and createDateTime <= #{endDate} ]]>
+           </if>
+           <if test="day!=null and day!='' ">
+	  		 <![CDATA[ and date_sub(curdate(), INTERVAL #{day} DAY) <= date(date_format(createDateTime, '%Y-%m-%d'))  ]]>
+	   		</if>
+	    group by date 
+	    order by date asc
+  </select>
+  
+  
+	<!-- 查询新增订购统计量 -->
+	 <select id="selectCountNewOrder"  parameterType="int" resultType="HashMap" >
+	     select date_format(createTime, '%m-%d') as date, count(*) as count 
+	    from t_bill_month 
+	    
+	     where 1=1
+         <if test="beginDate!=null and beginDate!='' ">
+               <![CDATA[ and createtime > #{beginDate} ]]>
+            </if>
+            <if test="endDate!=null and endDate!='' ">
+               <![CDATA[ and createtime <= #{endDate} ]]>
+           </if>
+           <if test="day!=null and day!='' ">
+	  		 <![CDATA[and date_sub(curdate(), INTERVAL #{day} DAY) <= date(date_format(createtime, '%Y-%m-%d'))    ]]>
+	   		</if>
+	    
+	    group by date 
+	    order by date asc
+  </select>
+  
+  
+	<!-- 查询新增订购人数 -->
+	 <select id="selectCountUserOrder"  parameterType="int" resultType="HashMap" >
+	    select date_format(createTime, '%m-%d') as date, count(DISTINCT userId) as count 
+	    from t_bill_month 
+	    
+	     where 1=1
+         <if test="beginDate!=null and beginDate!='' ">
+               <![CDATA[ and createtime > #{beginDate} ]]>
+            </if>
+            <if test="endDate!=null and endDate!='' ">
+               <![CDATA[ and createtime <= #{endDate} ]]>
+           </if>
+           <if test="day!=null and day!='' ">
+	  		 <![CDATA[and date_sub(curdate(), INTERVAL #{day} DAY) <= date(date_format(createtime, '%Y-%m-%d'))     ]]>
+	   		</if>
+	    
+	    
+	    group by date 
+	    order by date asc
+  </select>
+  
+  
+  	<!-- 查询新增金额统计量 -->
+	 <select id="selectCountNewPrice"  parameterType="int" resultType="HashMap" >
+	     select date_format(createTime, '%m-%d') as date, sum(total_fee) as count 
+	    from t_bill_month 
+	     where 1=1
+         <if test="beginDate!=null and beginDate!='' ">
+               <![CDATA[ and createtime > #{beginDate} ]]>
+            </if>
+            <if test="endDate!=null and endDate!='' ">
+               <![CDATA[ and createtime <= #{endDate} ]]>
+           </if>
+           <if test="day!=null and day!='' ">
+	  		 <![CDATA[ and date_sub(curdate(), INTERVAL #{day} DAY) <= date(date_format(createtime, '%Y-%m-%d'))      ]]>
+	   		</if>
+	    group by date 
+	    order by date asc
+  </select>
+  
+
+
+
+</mapper>

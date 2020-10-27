@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace必须指向Dao接口 -->
+<mapper namespace="com.neuedu.crm.dao.GameCategoryDao">
+
+	<!-- 获取所有游戏分类 -->
+	<select id="getGameCategory"
+		resultType="com.neuedu.crm.entity.GameCategory">
+		select * from game_category
+	</select>
+
+	<!-- 分类PvUv -->
+	<select id="getListPvUvByPage"
+		parameterType="com.neuedu.crm.entity.GameCategory"
+		resultType="com.neuedu.crm.entity.GameCategory">
+		select count(1) as countPV,count(distinct userId)as countUV,
+		categoryName,
+		date_format(createDateTime,'%Y-%m-%d') as countDay
+		from
+		count_category
+		<where>
+			<if test="categoryId!=null and categoryId!='' ">
+				categoryId like CONCAT('%', #{categoryId},'%')
+			</if>
+			<if test="beginDate!=null and beginDate!='' ">
+               <![CDATA[ and createDateTime > #{beginDate} ]]>
+			</if>
+			<if test="endDate!=null and endDate!='' ">
+               <![CDATA[ and createDateTime <= #{endDate} ]]>
+			</if>
+		</where>
+		group by countDay,categoryId
+		order by countDay desc
+	</select>
+	
+	<!-- 导出 分类PvUv -->
+	<select id="getListPvUvExport"
+		parameterType="com.neuedu.crm.entity.GameCategory"
+		resultType="com.neuedu.crm.entity.GameCategory">
+		select count(1) as countPV,count(distinct userId)as countUV,
+		categoryName,
+		date_format(createDateTime,'%Y-%m-%d') as countDay
+		from
+		count_category
+		<where>
+			<if test="categoryId!=null and categoryId!='' ">
+				categoryId like CONCAT('%', #{categoryId},'%')
+			</if>
+			<if test="beginDate!=null and beginDate!='' ">
+               <![CDATA[ and createDateTime > #{beginDate} ]]>
+			</if>
+			<if test="endDate!=null and endDate!='' ">
+               <![CDATA[ and createDateTime <= #{endDate} ]]>
+			</if>
+		</where>
+		group by countDay,categoryId
+		order by countDay desc
+	</select>
+
+</mapper>

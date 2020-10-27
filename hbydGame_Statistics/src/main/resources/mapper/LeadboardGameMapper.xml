@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace必须指向Dao接口 -->
+
+<mapper namespace="com.neuedu.crm.dao.LeadboardGameDao">
+
+	<!-- 排行榜PV UV -->
+	<select id="getListLeadboardGameDayByPage"
+		parameterType="com.neuedu.crm.entity.LeadboardGame"
+		resultType="com.neuedu.crm.entity.LeadboardGame">
+		select DATE_FORMAT(t.createDateTime,'%Y-%m-%d')as
+		countDayTime,t.gameName, t.packageName,t.version,t.pageName,i.cpId,c.cpName,
+		count(*) as countPV,count(distinct userId) as countUV
+		from count_game_startup
+		t left join
+		game_info i on t.packageName=i.packageName 
+		left join game_cp c on i.cpId = c.cpId
+		<where>
+			<if test="gameName!=null and gameName!='' ">
+				t.gameName like CONCAT('%', #{gameName},'%')
+			</if>
+			<if test="packageName!=null and packageName!='' ">
+				and t.packageName like CONCAT('%', #{packageName},'%')
+			</if>
+			<if test="cpId!=null and cpId!='' ">
+				and i.cpId like CONCAT('%', #{cpId},'%')
+			</if>
+			<if test="dayDate!=null and dayDate!='' ">
+               <![CDATA[ and DATE_FORMAT(t.createDateTime,'%Y-%m-%d') = #{dayDate} ]]>
+			</if>
+		</where>
+		group by countDayTime,t.packageName,t.version
+		order by countDayTime,countPV
+		desc
+	</select>
+	
+	<!-- 导出 排行榜PV UV -->
+	<select id="getListLeadboardGameDayExport"
+		parameterType="com.neuedu.crm.entity.LeadboardGame"
+		resultType="com.neuedu.crm.entity.LeadboardGame">
+		select DATE_FORMAT(t.createDateTime,'%Y-%m-%d')as
+		countDayTime,t.gameName, t.packageName,t.version,t.pageName,i.cpId,c.cpName,
+		count(*) as countPV,count(distinct userId) as countUV
+		from count_game_startup
+		t left join
+		game_info i on t.packageName=i.packageName 
+		left join game_cp c on i.cpId = c.cpId
+		<where>
+			<if test="gameName!=null and gameName!='' ">
+				t.gameName like CONCAT('%', #{gameName},'%')
+			</if>
+			<if test="packageName!=null and packageName!='' ">
+				and t.packageName like CONCAT('%', #{packageName},'%')
+			</if>
+			<if test="cpId!=null and cpId!='' ">
+				and i.cpId like CONCAT('%', #{cpId},'%')
+			</if>
+			<if test="dayDate!=null and dayDate!='' ">
+               <![CDATA[ and DATE_FORMAT(t.createDateTime,'%Y-%m-%d') = #{dayDate} ]]>
+			</if>
+		</where>
+		group by countDayTime,t.packageName,t.version
+		order by countDayTime,countPV
+		desc
+	</select>
+
+	
+	<!--  排行榜PV UV (用来获取前一天数据 不分页) -->
+	<select id="getListLeadboardGameYesterday"
+		parameterType="com.neuedu.crm.entity.LeadboardGame"
+		resultType="com.neuedu.crm.entity.LeadboardGame">
+		select DATE_FORMAT(t.createDateTime,'%Y-%m-%d')as
+		countDayTime,t.gameName, t.packageName,t.version,t.pageName,i.cpId,c.cpName,
+		count(*) as countPV,count(distinct userId) as countUV
+		from count_game_startup
+		t left join
+		game_info i on t.packageName=i.packageName 
+		left join game_cp c on i.cpId = c.cpId
+		<where>
+			<if test="gameName!=null and gameName!='' ">
+				t.gameName like CONCAT('%', #{gameName},'%')
+			</if>
+			<if test="packageName!=null and packageName!='' ">
+				and t.packageName like CONCAT('%', #{packageName},'%')
+			</if>
+			<if test="cpId!=null and cpId!='' ">
+				and i.cpId like CONCAT('%', #{cpId},'%')
+			</if>
+			<if test="dayDate!=null and dayDate!='' ">
+               <![CDATA[ and DATE_FORMAT(t.createDateTime,'%Y-%m-%d') = #{dayDate} ]]>
+			</if>
+		</where>
+		group by countDayTime,t.packageName,t.version
+		order by countDayTime,countPV
+		desc
+	</select>
+
+</mapper>

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace必须指向Dao接口 -->
+<mapper namespace="com.neuedu.crm.dao.BillMonthDao">
+
+	<!-- 每日实际消费金额总计 -->
+	<select id="getCountTotalFeeByPage"
+		parameterType="com.neuedu.crm.entity.BillMonth"
+		resultType="com.neuedu.crm.entity.BillMonth">
+		select a.cpId,a.cpName,sum(t.total_fee) as
+		countTotalFee,date_format(t.createTime,'%Y-%m-%d') as countDay
+		from
+		t_bill_month t
+
+		left join
+		(select g.gameId,g.cpId,c.cpName
+		from game_info
+		g
+		left join game_cp c
+		on g.cpId=c.cpId) as a
+		on t.gameId=a.gameId
+		<where>
+			<if test="cpId!=null and cpId!='' ">
+				cpId like CONCAT('%', #{cpId},'%')
+			</if>
+			<if test="beginDate!=null and beginDate!='' ">
+               <![CDATA[ and createTime > #{beginDate} ]]>
+			</if>
+			<if test="endDate!=null and endDate!='' ">
+               <![CDATA[ and createTime <= #{endDate} ]]>
+			</if>
+		</where>
+		group by countDay,a.cpId
+		order by countDay desc
+	</select>
+
+	<!-- 导出 每日实际消费金额总计 -->
+	<select id="getCountTotalFeeByPageExport"
+		parameterType="com.neuedu.crm.entity.BillMonth"
+		resultType="com.neuedu.crm.entity.BillMonth">
+		select a.cpId,a.cpName,sum(t.total_fee) as
+		countTotalFee,date_format(t.createTime,'%Y-%m-%d') as countDay
+		from
+		t_bill_month t
+
+		left join
+		(select g.gameId,g.cpId,c.cpName
+		from game_info
+		g
+		left join game_cp c
+		on g.cpId=c.cpId) as a
+		on t.gameId=a.gameId
+		<where>
+			<if test="cpId!=null and cpId!='' ">
+				cpId like CONCAT('%', #{cpId},'%')
+			</if>
+			<if test="beginDate!=null and beginDate!='' ">
+               <![CDATA[ and createTime > #{beginDate} ]]>
+			</if>
+			<if test="endDate!=null and endDate!='' ">
+               <![CDATA[ and createTime <= #{endDate} ]]>
+			</if>
+		</where>
+		group by countDay,a.cpId
+		order by countDay desc
+	</select>
+
+</mapper>

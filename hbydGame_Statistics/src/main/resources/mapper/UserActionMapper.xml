@@ -1,0 +1,223 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace必须指向Dao接口 -->
+
+<mapper namespace="com.neuedu.crm.dao.UserActionDao">
+
+	<!-- 用户行为统计 -->
+	<select id="getListByPage"
+		parameterType="com.neuedu.crm.entity.UserAction"
+		resultType="com.neuedu.crm.entity.UserAction">
+
+		select a.userId,a.object,a.action,a.ip,a.createDateTime
+		from
+		(
+
+		(select
+		userId,gameName as object,"游戏启动" as action,IP as
+		ip,createDateTime
+		from
+		count_game_startup
+		)
+
+		union all
+
+		(select userId,pageName as
+		object,"大厅访问" as
+		action,IP as ip,visitTime as
+		createDateTime from
+		count_game_visit)
+
+		union
+		all
+
+		(select userId,pageName as object,"页面访问" as
+		action,ip,createTime
+		from
+		count_page)
+
+		union all
+
+		(select
+		userId,productName as object,"订购产品" as
+		action,ipAddress as
+		ip,createTime from t_bill_month where STATUS=1)
+
+		)
+		as
+		a
+		<where>
+			<if test="userId!=null and userId!='' ">
+				a.userId like CONCAT('%', #{userId},'%')
+			</if>
+			<if test="object!=null and object!='' ">
+				and a.object like CONCAT('%', #{object},'%')
+			</if>
+			<if test="action!=null and action!='' ">
+				and a.action like CONCAT('%', #{action},'%')
+			</if>
+			<if test="beginDate!=null and beginDate!='' ">
+               <![CDATA[ and a.createDateTime > #{beginDate} ]]>
+			</if>
+			<if test="endDate!=null and endDate!='' ">
+               <![CDATA[ and a.createDateTime <= #{endDate} ]]>
+			</if>
+		</where>
+		order by
+		a.createDateTime desc
+	</select>
+
+
+	<!-- 导出 用户行为统计 -->
+	<select id="getListExport"
+		parameterType="com.neuedu.crm.entity.UserAction"
+		resultType="com.neuedu.crm.entity.UserAction">
+
+		select a.userId,a.object,a.action,a.ip,a.createDateTime
+		from
+		(
+
+		(select
+		userId,gameName as object,"游戏启动" as action,IP as
+		ip,createDateTime
+		from
+		count_game_startup
+		)
+
+		union all
+
+		(select userId,pageName as
+		object,"大厅访问" as
+		action,IP as ip,visitTime as
+		createDateTime from
+		count_game_visit)
+
+		union
+		all
+
+		(select userId,pageName as object,"页面访问" as
+		action,ip,createTime
+		from
+		count_page)
+
+		union all
+
+		(select
+		userId,productName as object,"订购产品" as
+		action,ipAddress as
+		ip,createTime from t_bill_month where STATUS=1)
+
+		)
+		as
+		a
+		<where>
+			<if test="userId!=null and userId!='' ">
+				a.userId like CONCAT('%', #{userId},'%')
+			</if>
+			<if test="object!=null and object!='' ">
+				and a.object like CONCAT('%', #{object},'%')
+			</if>
+			<if test="action!=null and action!='' ">
+				and a.action like CONCAT('%', #{action},'%')
+			</if>
+			<if test="beginDate!=null and beginDate!='' ">
+               <![CDATA[ and a.createDateTime > #{beginDate} ]]>
+			</if>
+			<if test="endDate!=null and endDate!='' ">
+               <![CDATA[ and a.createDateTime <= #{endDate} ]]>
+			</if>
+		</where>
+		order by
+		a.createDateTime desc
+	</select>
+
+	<!-- 用户行为PVUV -->
+	<select id="getListPvUvByPage"
+		parameterType="com.neuedu.crm.entity.UserAction"
+		resultType="com.neuedu.crm.entity.UserAction">
+
+		select count(1) as countPV,count(distinct a.userId) as
+		countUV,a.countDay
+		from
+		(
+		(select userId,gameName as object,"游戏启动" as action,IP as
+		ip,date_format(createDateTime,'%Y-%m-%d') as countDay
+		from count_game_startup )
+
+		union all
+
+		(select userId,pageName as object,"大厅访问" as action,IP as
+		ip,date_format(visitTime,'%Y-%m-%d') as countDay
+		from count_game_visit)
+
+		union all
+
+		(select userId,pageName as object,"页面访问" as
+		action,ip,date_format(createTime,'%Y-%m-%d') as countDay
+		from count_page)
+
+		union all
+
+		(select userId,productName as object,"订购产品" as action,ipAddress as
+		ip,date_format(createTime,'%Y-%m-%d') as countDay
+		from t_bill_month where STATUS=1)
+
+		) as a
+		<where>
+			<if test="beginDate!=null and beginDate!='' ">
+               <![CDATA[ a.countDay >= #{beginDate} ]]>
+			</if>
+			<if test="endDate!=null and endDate!='' ">
+               <![CDATA[ and a.countDay < #{endDate} ]]>
+			</if>
+		</where>
+		group by a.countDay
+		order by a.countDay desc
+	</select>
+	
+	<!-- 导出 用户行为PVUV -->
+	<select id="getListPvUvExport"
+		parameterType="com.neuedu.crm.entity.UserAction"
+		resultType="com.neuedu.crm.entity.UserAction">
+
+		select count(1) as countPV,count(distinct a.userId) as
+		countUV,a.countDay
+		from
+		(
+		(select userId,gameName as object,"游戏启动" as action,IP as
+		ip,date_format(createDateTime,'%Y-%m-%d') as countDay
+		from count_game_startup )
+
+		union all
+
+		(select userId,pageName as object,"大厅访问" as action,IP as
+		ip,date_format(visitTime,'%Y-%m-%d') as countDay
+		from count_game_visit)
+
+		union all
+
+		(select userId,pageName as object,"页面访问" as
+		action,ip,date_format(createTime,'%Y-%m-%d') as countDay
+		from count_page)
+
+		union all
+
+		(select userId,productName as object,"订购产品" as action,ipAddress as
+		ip,date_format(createTime,'%Y-%m-%d') as countDay
+		from t_bill_month where STATUS=1)
+
+		) as a
+		<where>
+			<if test="beginDate!=null and beginDate!='' ">
+               <![CDATA[ a.countDay > #{beginDate} ]]>
+			</if>
+			<if test="endDate!=null and endDate!='' ">
+               <![CDATA[ and a.countDay <= #{endDate} ]]>
+			</if>
+		</where>
+		group by a.countDay
+		order by a.countDay desc
+	</select>
+
+
+</mapper>

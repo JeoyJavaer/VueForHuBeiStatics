@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace必须指向Dao接口 -->
+
+<mapper namespace="com.neuedu.crm.dao.GameCpOrderDao">
+
+	<!-- 根据CP统计 (订购量,游戏点击量,订购发起) -->
+	<select id="getListByPage"
+		parameterType="com.neuedu.crm.entity.GameCp"
+		resultType="com.neuedu.crm.entity.GameCp">
+		select
+		c.cpId,c.cpName,a.orderCount,b.gameCount,d.orderAllCount from
+		game_cp
+		c
+
+		left join
+		(select count(1) as orderCount,o.cpId from
+		t_bill_month m left join game_info
+		o on m.gameId=o.gameId
+		<where>
+			<if test="beginDate!=null and beginDate!='' ">
+               <![CDATA[ m.createTime > #{beginDate} ]]>
+			</if>
+			<if test="endDate!=null and endDate!='' ">
+               <![CDATA[ and m.createTime <= #{endDate} ]]>
+			</if>
+		</where>
+		group by o.cpId) a
+		on c.cpId=a.cpId
+
+		left join
+		(select count(1) as
+		gameCount,o.cpId from count_game_startup s left join game_info o on
+		s.gameId=o.gameId
+		<where>
+			<if test="beginDate!=null and beginDate!='' ">
+               <![CDATA[ s.createDateTime > #{beginDate} ]]>
+			</if>
+			<if test="endDate!=null and endDate!='' ">
+               <![CDATA[ and s.createDateTime <= #{endDate} ]]>
+			</if>
+		</where>
+		group by o.cpId) b
+		on c.cpId=b.cpId
+
+		left join
+		(select count(1) as
+		orderAllCount,o.cpId from
+		t_bill_month_log l left join
+		game_info o on
+		l.gameId=o.gameId
+		<where>
+			<if test="beginDate!=null and beginDate!='' ">
+               <![CDATA[ l.createTime > #{beginDate} ]]>
+			</if>
+			<if test="endDate!=null and endDate!='' ">
+               <![CDATA[ and l.createTime <= #{endDate} ]]>
+			</if>
+		</where>
+		group by o.cpId) d
+		on c.cpId = d.cpId
+		<where>
+			c.productType=2
+			<if test="cpId!=null and cpId!='' ">
+				and c.cpId like CONCAT('%', #{cpId},'%')
+			</if>
+		</where>
+	</select>
+
+	<!-- 导出 根据CP统计 (订购量,游戏点击量,订购发起) -->
+	<select id="gamelistExport"
+		parameterType="com.neuedu.crm.entity.GameCp"
+		resultType="com.neuedu.crm.entity.GameCp">
+		select
+		c.cpId,c.cpName,a.orderCount,b.gameCount,d.orderAllCount from
+		game_cp
+		c
+
+		left join
+		(select count(1) as orderCount,o.cpId from
+		t_bill_month m left join game_info
+		o on m.gameId=o.gameId
+		<where>
+			<if test="beginDate!=null and beginDate!='' ">
+               <![CDATA[ m.createTime > #{beginDate} ]]>
+			</if>
+			<if test="endDate!=null and endDate!='' ">
+               <![CDATA[ and m.createTime <= #{endDate} ]]>
+			</if>
+		</where>
+		group by o.cpId) a
+		on c.cpId=a.cpId
+
+		left join
+		(select count(1) as
+		gameCount,o.cpId from count_game_startup s left join game_info o on
+		s.gameId=o.gameId
+		<where>
+			<if test="beginDate!=null and beginDate!='' ">
+               <![CDATA[ s.createDateTime > #{beginDate} ]]>
+			</if>
+			<if test="endDate!=null and endDate!='' ">
+               <![CDATA[ and s.createDateTime <= #{endDate} ]]>
+			</if>
+		</where>
+		group by o.cpId) b
+		on c.cpId=b.cpId
+
+		left join
+		(select count(1) as
+		orderAllCount,o.cpId from
+		t_bill_month_log l left join
+		game_info o on
+		l.gameId=o.gameId
+		<where>
+			<if test="beginDate!=null and beginDate!='' ">
+               <![CDATA[ l.createTime > #{beginDate} ]]>
+			</if>
+			<if test="endDate!=null and endDate!='' ">
+               <![CDATA[ and l.createTime <= #{endDate} ]]>
+			</if>
+		</where>
+		group by o.cpId) d
+		on c.cpId = d.cpId
+		<where>
+			c.productType=2
+			<if test="cpId!=null and cpId!='' ">
+				and c.cpId like CONCAT('%', #{cpId},'%')
+			</if>
+		</where>
+	</select>
+
+
+</mapper>

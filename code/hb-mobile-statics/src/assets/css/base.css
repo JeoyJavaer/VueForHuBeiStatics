@@ -1,0 +1,60 @@
+@import "normalize.css";
+
+:root{
+  --color-text:#666;
+  --color-height-text:#ff5777;
+  --color-tint:#ff8198;
+  --color-background:#fff;
+  font-size: 16px;
+  --font-height:1.5;
+}
+*,
+*::before,
+*::after{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+
+}
+body {
+  font-family: "Microsoft YaHei UI Light";
+  user-select: none;  /*禁止用户鼠标在页面中选中图片或文字*/
+  -webkit-tap-highlight-color: transparent;
+  background-color: var(--color-background);
+  color: var(--color-text);
+  width: 100vh;
+
+}
+
+a{
+  color: var(--color-text);
+  text-decoration: none;
+}
+
+.clean-fix::after {
+  clear: both;
+  content: '';
+  display: block;
+  width: 0;
+  height: 0;
+  visibility: hidden;
+}
+
+.clean-fix{
+  zoom: 1;
+}
+
+.left{
+  float: left;
+}
+
+.right{
+  float: right;
+}
+
+.el-table {
+  margin-top: 15px;
+  min-width: 1060px;
+}
+
+

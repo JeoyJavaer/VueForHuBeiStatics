@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace必须指向Dao接口 -->
+<mapper namespace="com.neuedu.crm.dao.RecommendGameDao">
+
+	<!-- 推荐位PvUv -->
+	<select id="getListPvUvByPage"
+		parameterType="com.neuedu.crm.entity.RecommendGame"
+		resultType="com.neuedu.crm.entity.RecommendGame">
+		(select
+		recName,pageName,DATE_FORMAT(recClickTime,'%Y-%m-%d') as
+		countDay,
+		count(*) as countPV, count(DISTINCT userId) as countUV
+		from
+		count_user_game_rec
+		<where>
+			pageName !="猜你喜欢"
+			<if test="recName!=null and recName!='' ">
+				and recName like CONCAT('%', #{recName},'%')
+			</if>
+			<if test="beginDate!=null and beginDate!='' ">
+               <![CDATA[ and recClickTime > #{beginDate} ]]>
+			</if>
+			<if test="endDate!=null and endDate!='' ">
+               <![CDATA[ and recClickTime <= #{endDate} ]]>
+			</if>
+		</where>
+		group by countDay,recName)
+
+		union
+
+		(select g.gameName as recName
+		,c.pageName,DATE_FORMAT(c.recClickTime,'%Y-%m-%d')
+		as countDay,
+		count(*) as countPV, count(DISTINCT c.userId) as countUV
+		from
+		count_user_game_rec c
+		LEFT JOIN game_info g ON c.recName=g.packageName
+		<where>
+			pageName ="猜你喜欢"
+			<if test="recName!=null and recName!='' ">
+				and recName like CONCAT('%', #{recName},'%')
+			</if>
+			<if test="beginDate!=null and beginDate!='' ">
+               <![CDATA[ and recClickTime > #{beginDate} ]]>
+			</if>
+			<if test="endDate!=null and endDate!='' ">
+               <![CDATA[ and recClickTime <= #{endDate} ]]>
+			</if>
+		</where>
+		group by countDay,recName)
+
+		ORDER BY countDay desc,countPV desc
+	</select>
+
+	<!--导出 推荐位PvUv -->
+	<select id="getListPvUvExport"
+		parameterType="com.neuedu.crm.entity.RecommendGame"
+		resultType="com.neuedu.crm.entity.RecommendGame">
+		(select
+		recName,pageName,DATE_FORMAT(recClickTime,'%Y-%m-%d') as
+		countDay,
+		count(*) as countPV, count(DISTINCT userId) as countUV
+		from
+		count_user_game_rec
+		<where>
+			pageName !="猜你喜欢"
+			<if test="recName!=null and recName!='' ">
+				and recName like CONCAT('%', #{recName},'%')
+			</if>
+			<if test="beginDate!=null and beginDate!='' ">
+               <![CDATA[ and recClickTime > #{beginDate} ]]>
+			</if>
+			<if test="endDate!=null and endDate!='' ">
+               <![CDATA[ and recClickTime <= #{endDate} ]]>
+			</if>
+		</where>
+		group by countDay,recName)
+
+		union
+
+		(select g.gameName as recName
+		,c.pageName,DATE_FORMAT(c.recClickTime,'%Y-%m-%d')
+		as countDay,
+		count(*) as countPV, count(DISTINCT c.userId) as countUV
+		from
+		count_user_game_rec c
+		LEFT JOIN game_info g ON c.recName=g.packageName
+		<where>
+			pageName ="猜你喜欢"
+			<if test="recName!=null and recName!='' ">
+				and recName like CONCAT('%', #{recName},'%')
+			</if>
+			<if test="beginDate!=null and beginDate!='' ">
+               <![CDATA[ and recClickTime > #{beginDate} ]]>
+			</if>
+			<if test="endDate!=null and endDate!='' ">
+               <![CDATA[ and recClickTime <= #{endDate} ]]>
+			</if>
+		</where>
+		group by countDay,recName)
+
+		ORDER BY countDay desc,countPV desc
+	</select>
+
+	<!-- 推荐位 -->
+	<select id="getListByPage"
+		parameterType="com.neuedu.crm.entity.RecommendGame"
+		resultType="com.neuedu.crm.entity.RecommendGame">
+		(select userId,recName,pageName,recClickTime
+		from count_user_game_rec
+		<where>
+			pageName !="猜你喜欢"
+			<if test="recName!=null and recName!='' ">
+				and recName like CONCAT('%', #{recName},'%')
+			</if>
+			<if test="userId!=null and userId!='' ">
+				and userId like CONCAT('%', #{userId},'%')
+			</if>
+			<if test="pageName!=null and pageName!='' ">
+				and pageName like CONCAT('%', #{pageName},'%')
+			</if>
+			<if test="beginDate!=null and beginDate!='' ">
+               <![CDATA[ and recClickTime > #{beginDate} ]]>
+			</if>
+			<if test="endDate!=null and endDate!='' ">
+               <![CDATA[ and recClickTime <= #{endDate} ]]>
+			</if>
+		</where>
+		)
+
+		union
+
+		(select c.userId,g.gameName as
+		recName,c.pageName,c.recClickTime
+		from count_user_game_rec c
+		left join
+		game_info g
+		on c.recName=g.packageName
+		<where>
+			pageName ="猜你喜欢"
+			<if test="recName!=null and recName!='' ">
+				and recName like CONCAT('%', #{recName},'%')
+			</if>
+			<if test="userId!=null and userId!='' ">
+				and userId like CONCAT('%', #{userId},'%')
+			</if>
+			<if test="pageName!=null and pageName!='' ">
+				and pageName like CONCAT('%', #{pageName},'%')
+			</if>
+			<if test="beginDate!=null and beginDate!='' ">
+               <![CDATA[ and recClickTime > #{beginDate} ]]>
+			</if>
+			<if test="endDate!=null and endDate!='' ">
+               <![CDATA[ and recClickTime <= #{endDate} ]]>
+			</if>
+		</where>
+		)
+
+		order by
+		recClickTime desc
+	</select>
+
+	<!-- 导出 推荐位 -->
+	<select id="getListExport"
+		parameterType="com.neuedu.crm.entity.RecommendGame"
+		resultType="com.neuedu.crm.entity.RecommendGame">
+		(select userId,recName,pageName,recClickTime
+		from count_user_game_rec
+		<where>
+			pageName !="猜你喜欢"
+			<if test="recName!=null and recName!='' ">
+				and recName like CONCAT('%', #{recName},'%')
+			</if>
+			<if test="userId!=null and userId!='' ">
+				and userId like CONCAT('%', #{userId},'%')
+			</if>
+			<if test="pageName!=null and pageName!='' ">
+				and pageName like CONCAT('%', #{pageName},'%')
+			</if>
+			<if test="beginDate!=null and beginDate!='' ">
+               <![CDATA[ and recClickTime > #{beginDate} ]]>
+			</if>
+			<if test="endDate!=null and endDate!='' ">
+               <![CDATA[ and recClickTime <= #{endDate} ]]>
+			</if>
+		</where>
+		)
+
+		union
+
+		(select c.userId,g.gameName as
+		recName,c.pageName,c.recClickTime
+		from count_user_game_rec c
+		left join
+		game_info g
+		on c.recName=g.packageName
+		<where>
+			pageName ="猜你喜欢"
+			<if test="recName!=null and recName!='' ">
+				and recName like CONCAT('%', #{recName},'%')
+			</if>
+			<if test="userId!=null and userId!='' ">
+				and userId like CONCAT('%', #{userId},'%')
+			</if>
+			<if test="pageName!=null and pageName!='' ">
+				and pageName like CONCAT('%', #{pageName},'%')
+			</if>
+			<if test="beginDate!=null and beginDate!='' ">
+               <![CDATA[ and recClickTime > #{beginDate} ]]>
+			</if>
+			<if test="endDate!=null and endDate!='' ">
+               <![CDATA[ and recClickTime <= #{endDate} ]]>
+			</if>
+		</where>
+		)
+
+		order by
+		recClickTime desc
+	</select>
+
+</mapper>

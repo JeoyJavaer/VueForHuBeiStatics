@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace必须指向Dao接口 -->
+<mapper namespace="com.neuedu.crm.dao.ActivityGameDao">
+
+	<!-- 推荐位PvUv -->
+	<select id="getListPvUvByPage"
+		parameterType="com.neuedu.crm.entity.ActivityGame"
+		resultType="com.neuedu.crm.entity.ActivityGame">
+		select activityId,activityName,date_format(createDateTime,'%Y-%m-%d') as
+		countDay,count(1) as countPV ,count(distinct userId)as countUV,type
+		from
+		count_activity
+		<where>
+			<if test="activityId!=null and activityId!='' ">
+				activityId like CONCAT('%', #{activityId},'%')
+			</if>
+			<if test="activityName!=null and activityName!='' ">
+				and activityName like CONCAT('%', #{activityName},'%')
+			</if>
+			<if test="type!=null and type!='' ">
+				and type = #{type}
+			</if>
+			<if test="beginDate!=null and beginDate!='' ">
+               <![CDATA[ and createDateTime > #{beginDate} ]]>
+			</if>
+			<if test="endDate!=null and endDate!='' ">
+               <![CDATA[ and createDateTime <= #{endDate} ]]>
+			</if>
+		</where>
+		group by countDay,activityId,type
+		order by countDay desc
+	</select>
+
+	<!-- 导出 推荐位PvUv -->
+	<select id="getListPvUvExport"
+		parameterType="com.neuedu.crm.entity.ActivityGame"
+		resultType="com.neuedu.crm.entity.ActivityGame">
+		select activityId,activityName,date_format(createDateTime,'%Y-%m-%d') as
+		countDay,count(1) as countPV ,count(distinct userId)as countUV,type
+		from
+		count_activity
+		<where>
+			<if test="activityId!=null and activityId!='' ">
+				activityId like CONCAT('%', #{activityId},'%')
+			</if>
+			<if test="type!=null and type!='' ">
+				and type = #{type}
+			</if>
+			<if test="beginDate!=null and beginDate!='' ">
+               <![CDATA[ and createDateTime > #{beginDate} ]]>
+			</if>
+			<if test="endDate!=null and endDate!='' ">
+               <![CDATA[ and createDateTime <= #{endDate} ]]>
+			</if>
+		</where>
+		group by countDay,activityId,type
+		order by countDay desc
+	</select>
+
+	<!-- 推荐位 -->
+	<select id="getListByPage"
+		parameterType="com.neuedu.crm.entity.ActivityGame"
+		resultType="com.neuedu.crm.entity.ActivityGame">
+		select * from count_activity
+		<where>
+			<if test="userId!=null and userId!='' ">
+				userId like CONCAT('%', #{userId},'%')
+			</if>
+			<if test="activityName!=null and activityName!='' ">
+				and activityName = #{activityName}
+			</if>
+			<if test="type!=null and type!='' ">
+				and type = #{type}
+			</if>
+			<if test="beginDate!=null and beginDate!='' ">
+               <![CDATA[ and createDateTime > #{beginDate} ]]>
+			</if>
+			<if test="endDate!=null and endDate!='' ">
+               <![CDATA[ and createDateTime <= #{endDate} ]]>
+			</if>
+		</where>
+		order by createDateTime desc
+	</select>
+
+	<!-- 导出 推荐位 -->
+	<select id="getListExport"
+		parameterType="com.neuedu.crm.entity.ActivityGame"
+		resultType="com.neuedu.crm.entity.ActivityGame">
+		select * from count_activity
+		<where>
+			<if test="userId!=null and userId!='' ">
+				userId like CONCAT('%', #{userId},'%')
+			</if>
+			<if test="activityName!=null and activityName!='' ">
+				and activityName = #{activityName}
+			</if>
+			<if test="type!=null and type!='' ">
+				and type = #{type}
+			</if>
+			<if test="beginDate!=null and beginDate!='' ">
+               <![CDATA[ and createDateTime > #{beginDate} ]]>
+			</if>
+			<if test="endDate!=null and endDate!='' ">
+               <![CDATA[ and createDateTime <= #{endDate} ]]>
+			</if>
+		</where>
+		order by createDateTime desc
+	</select>
+
+
+</mapper>

@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace必须指向Dao接口 -->
+<mapper namespace="com.neuedu.crm.dao.GameVisitDao">
+
+	<!-- 每日PvUv -->
+	<select id="getListDayCountPvUvByPage"
+		parameterType="com.neuedu.crm.entity.GameVisit"
+		resultType="com.neuedu.crm.entity.GameVisit">
+		select a.*,b.countOrder from
+		(
+		select
+		DATE_FORMAT(t.visitTime,'%Y-%m-%d')as countDayTime,
+		count(*) as
+		countPV,count(distinct userId) as countUV
+		from count_game_visit t
+		<where>
+			<if test="beginDate!=null and beginDate!='' ">
+               <![CDATA[ t.visitTime > #{beginDate} ]]>
+			</if>
+			<if test="endDate!=null and endDate!='' ">
+               <![CDATA[ and t.visitTime <= #{endDate} ]]>
+			</if>
+		</where>
+		group by countDayTime
+		) a
+
+		left join
+		(
+		select count(1)as
+		countOrder,DATE_FORMAT(b.createTime,'%Y-%m-%d')as
+		countDayTime from
+		t_bill_month b
+		<where>
+			<if test="beginDate!=null and beginDate!='' ">
+               <![CDATA[ b.createTime > #{beginDate} ]]>
+			</if>
+			<if test="endDate!=null and endDate!='' ">
+               <![CDATA[ and b.createTime <= #{endDate} ]]>
+			</if>
+		</where>
+		group by countDayTime
+		)b
+		on a.countDayTime = b.countDayTime
+
+		order by
+		countDayTime
+		desc
+	</select>
+
+	<!-- 导出 每日PvUv -->
+	<select id="getListDayCountPvUvExport"
+		parameterType="com.neuedu.crm.entity.GameVisit"
+		resultType="com.neuedu.crm.entity.GameVisit">
+		select a.*,b.countOrder from
+		(
+		select
+		DATE_FORMAT(t.visitTime,'%Y-%m-%d')as countDayTime,
+		count(*) as
+		countPV,count(distinct userId) as countUV
+		from count_game_visit t
+		<where>
+			<if test="beginDate!=null and beginDate!='' ">
+               <![CDATA[ t.visitTime > #{beginDate} ]]>
+			</if>
+			<if test="endDate!=null and endDate!='' ">
+               <![CDATA[ and t.visitTime <= #{endDate} ]]>
+			</if>
+		</where>
+		group by countDayTime
+		) a
+
+		left join
+		(
+		select count(1)as
+		countOrder,DATE_FORMAT(b.createTime,'%Y-%m-%d')as
+		countDayTime from
+		t_bill_month b
+		<where>
+			<if test="beginDate!=null and beginDate!='' ">
+               <![CDATA[ b.createTime > #{beginDate} ]]>
+			</if>
+			<if test="endDate!=null and endDate!='' ">
+               <![CDATA[ and b.createTime <= #{endDate} ]]>
+			</if>
+		</where>
+		group by countDayTime
+		)b
+		on a.countDayTime = b.countDayTime
+
+		order by
+		countDayTime
+		desc
+	</select>
+
+	<!-- 所有记录 -->
+	<select id="getListByPage"
+		parameterType="com.neuedu.crm.entity.GameVisit"
+		resultType="com.neuedu.crm.entity.GameVisit">
+		select * from count_game_visit t
+		<where>
+			<if test="userId!=null and userId!='' ">
+				t.userId like CONCAT('%', #{userId},'%')
+			</if>
+			<if test="pageName!=null and pageName!='' ">
+				and t.pageName like CONCAT('%', #{pageName},'%')
+			</if>
+			<if test="beginDate!=null and beginDate!='' ">
+               <![CDATA[ and t.visitTime > #{beginDate} ]]>
+			</if>
+			<if test="endDate!=null and endDate!='' ">
+               <![CDATA[ and t.visitTime <= #{endDate} ]]>
+			</if>
+		</where>
+		order by visitTime desc
+	</select>
+
+	<!-- 所有记录 -->
+	<select id="getListExport"
+		parameterType="com.neuedu.crm.entity.GameVisit"
+		resultType="com.neuedu.crm.entity.GameVisit">
+		select * from count_game_visit t
+		<where>
+			<if test="userId!=null and userId!='' ">
+				t.userId like CONCAT('%', #{userId},'%')
+			</if>
+			<if test="pageName!=null and pageName!='' ">
+				and t.pageName like CONCAT('%', #{pageName},'%')
+			</if>
+			<if test="beginDate!=null and beginDate!='' ">
+               <![CDATA[ and t.visitTime > #{beginDate} ]]>
+			</if>
+			<if test="endDate!=null and endDate!='' ">
+               <![CDATA[ and t.visitTime <= #{endDate} ]]>
+			</if>
+		</where>
+		order by visitTime desc
+	</select>
+
+	<!-- 总PvUv -->
+	<select id="getSumPvUv"
+		parameterType="com.neuedu.crm.entity.GameVisit"
+		resultType="com.neuedu.crm.entity.GameVisit">
+		select count(1) as sumPV,count(distinct userId) as sumUV
+		from
+		count_game_visit
+		<where>
+			<if test="beginDate!=null and beginDate!='' ">
+               <![CDATA[ visitTime > #{beginDate} ]]>
+			</if>
+			<if test="endDate!=null and endDate!='' ">
+               <![CDATA[ and visitTime <= #{endDate} ]]>
+			</if>
+		</where>
+	</select>
+
+</mapper>

@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace必须指向Dao接口 -->
+
+<mapper namespace="com.neuedu.crm.dao.GameInfoDao">
+
+	<!-- 根据CP统计 (订购量,游戏点击量,订购发起) -->
+	<select id="getOrderListByPage"
+		parameterType="com.neuedu.crm.entity.GameInfo"
+		resultType="com.neuedu.crm.entity.GameInfo">
+		select
+		i.gameName,i.packageName,c.cpName,i.gameId,a.orderCount,b.gameCount,d.orderAllCount
+		from game_info i
+		left join game_cp c
+		on c.cpId=i.cpId
+
+		left join
+		(select
+		count(1) as orderCount,m.gameId
+		from t_bill_month m
+		<where>
+			<if test="beginDate!=null and beginDate!='' ">
+				<![CDATA[ m.createTime >= #{beginDate} ]]>
+			</if>
+			<if test="endDate!=null and endDate!='' ">
+				<![CDATA[ and m.createTime <= #{endDate} ]]>
+			</if>
+		</where>
+		group by m.gameId) a
+		on i.gameId=a.gameId
+
+		left join
+		(select count(1) as
+		gameCount,s.gameName,s.packageName,s.gameId
+		from count_game_startup s
+		left join game_info g
+		on s.gameId=g.gameId
+		<where>
+			<if test="beginDate!=null and beginDate!='' ">
+				<![CDATA[ s.createDateTime >= #{beginDate} ]]>
+			</if>
+			<if test="endDate!=null and endDate!='' ">
+				<![CDATA[ and s.createDateTime <= #{endDate} ]]>
+			</if>
+		</where>
+		group by g.packageName) b
+		on
+		i.gameId=b.gameId
+
+		left join
+		(select count(1)
+		as
+		orderAllCount,l.gameId,i.gameName
+		from t_bill_month_log l
+		left join
+		game_info i
+		on l.gameId=i.gameId
+		<where>
+			<if test="beginDate!=null and beginDate!='' ">
+				<![CDATA[ l.createTime >= #{beginDate} ]]>
+			</if>
+			<if test="endDate!=null and endDate!='' ">
+				<![CDATA[ and l.createTime <= #{endDate} ]]>
+			</if>
+		</where>
+		group by i.packageName) d
+		on
+		i.gameId=d.gameId
+
+		<where>
+			<if test="gameName!=null and gameName!='' ">
+				i.gameName like CONCAT('%', #{gameName},'%')
+			</if>
+			<if test="packageName!=null and packageName!='' ">
+				and i.packageName like CONCAT('%', #{packageName},'%')
+			</if>
+			<if test="cpId!=null and cpId!='' ">
+				and c.cpId like CONCAT('%', #{cpId},'%')
+			</if>
+		</where>
+
+		order by a.orderCount desc
+
+	</select>
+
+	<!-- 导出 根据game_info统计 (订购量,游戏点击量,订购发起) -->
+	<select id="gameOrderlistExport"
+		parameterType="com.neuedu.crm.entity.GameInfo"
+		resultType="com.neuedu.crm.entity.GameInfo">
+		select
+		i.gameName,i.packageName,c.cpName,i.gameId,a.orderCount,b.gameCount,d.orderAllCount
+		from game_info i
+		left join game_cp c
+		on c.cpId=i.cpId
+
+		left join
+		(select
+		count(1) as orderCount,m.gameId
+		from t_bill_month m
+		<where>
+			<if test="beginDate!=null and beginDate!='' ">
+				<![CDATA[ m.createTime > #{beginDate} ]]>
+			</if>
+			<if test="endDate!=null and endDate!='' ">
+				<![CDATA[ and m.createTime <= #{endDate} ]]>
+			</if>
+		</where>
+		group by m.gameId) a
+		on i.gameId=a.gameId
+
+		left join
+		(select count(1) as
+		gameCount,s.gameName,s.packageName,s.gameId
+		from count_game_startup s
+		left join game_info g
+		on s.gameId=g.gameId
+		<where>
+			<if test="beginDate!=null and beginDate!='' ">
+				<![CDATA[ s.createDateTime > #{beginDate} ]]>
+			</if>
+			<if test="endDate!=null and endDate!='' ">
+				<![CDATA[ and s.createDateTime <= #{endDate} ]]>
+			</if>
+		</where>
+		group by g.packageName) b
+		on
+		i.gameId=b.gameId
+
+		left join
+		(select count(1)
+		as
+		orderAllCount,l.gameId,i.gameName
+		from t_bill_month_log l
+		left join
+		game_info i
+		on l.gameId=i.gameId
+		<where>
+			<if test="beginDate!=null and beginDate!='' ">
+				<![CDATA[ l.createTime > #{beginDate} ]]>
+			</if>
+			<if test="endDate!=null and endDate!='' ">
+				<![CDATA[ and l.createTime <= #{endDate} ]]>
+			</if>
+		</where>
+		group by i.packageName) d
+		on
+		i.gameId=d.gameId
+
+		<where>
+			<if test="gameName!=null and gameName!='' ">
+				i.gameName like CONCAT('%', #{gameName},'%')
+			</if>
+			<if test="packageName!=null and packageName!='' ">
+				and i.packageName like CONCAT('%', #{packageName},'%')
+			</if>
+			<if test="cpId!=null and cpId!='' ">
+				and c.cpId like CONCAT('%', #{cpId},'%')
+			</if>
+		</where>
+
+		order by a.orderCount desc
+
+	</select>
+
+
+
+
+</mapper>
