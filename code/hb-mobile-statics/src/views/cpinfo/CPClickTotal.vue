@@ -1,5 +1,5 @@
 <template>
-  $END$
+  <div>CP总点击量</div>
 </template>
 
 <script>

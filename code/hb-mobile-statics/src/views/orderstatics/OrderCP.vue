@@ -1,5 +1,5 @@
 <template>
-  $END$
+  <div>CP订购统计</div>
 </template>
 
 <script>

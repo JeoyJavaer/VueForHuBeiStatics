@@ -1,5 +1,5 @@
 <template>
-  $END$
+  <div>大厅PVUV统计</div>
 </template>
 
 <script>

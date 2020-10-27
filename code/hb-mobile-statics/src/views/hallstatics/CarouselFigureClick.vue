@@ -1,5 +1,5 @@
 <template>
-  $END$
+  <dvi>轮播图PV UV</dvi>
 </template>
 
 <script>

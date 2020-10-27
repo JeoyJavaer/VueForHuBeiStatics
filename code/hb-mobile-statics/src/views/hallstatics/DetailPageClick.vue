@@ -1,5 +1,5 @@
 <template>
-  $END$
+  <div>详情页PV UV统计</div>
 </template>
 
 <script>

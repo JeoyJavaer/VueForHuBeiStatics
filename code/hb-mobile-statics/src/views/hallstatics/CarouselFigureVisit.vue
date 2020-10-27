@@ -1,5 +1,5 @@
 <template>
-  $END$
+  <div>轮播图访问统计</div>
 </template>
 
 <script>

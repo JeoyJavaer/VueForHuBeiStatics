@@ -1,5 +1,8 @@
 <template>
-  $END$
+  <!--主页面中首页的数据-->
+  <dvi>
+    主页面中首页的数据
+  </dvi>
 </template>
 
 <script>

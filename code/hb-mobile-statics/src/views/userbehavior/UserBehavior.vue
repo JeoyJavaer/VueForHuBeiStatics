@@ -1,10 +1,10 @@
 <template>
-  $END$
+  <dvi>用户行为统计</dvi>
 </template>
 
 <script>
   export default {
-    name: "UserBehavier"
+    name: "UserBehavior"
   }
 </script>
 

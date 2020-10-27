@@ -1,5 +1,5 @@
 <template>
-  $END$
+  <div>游戏分类统计</div>
 </template>
 
 <script>

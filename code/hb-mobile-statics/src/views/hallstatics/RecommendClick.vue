@@ -1,5 +1,5 @@
 <template>
-  $END$
+  <dvi>推荐位PV UV统计</dvi>
 </template>
 
 <script>

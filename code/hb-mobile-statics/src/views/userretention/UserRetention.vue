@@ -1,5 +1,5 @@
 <template>
-  $END$
+  <div>用户留存率</div>
 </template>
 
 <script>

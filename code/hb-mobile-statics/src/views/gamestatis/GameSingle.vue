@@ -1,5 +1,5 @@
 <template>
-  $END$
+  <div>游戏单个统计</div>
 </template>
 
 <script>

@@ -1,5 +1,5 @@
 <template>
-  $END$
+  <div>CP游戏点击量查询</div>
 </template>
 
 <script>
