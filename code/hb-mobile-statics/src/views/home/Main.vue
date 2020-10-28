@@ -24,7 +24,8 @@
                 <i :class="iconList[item.id]"></i>
                 <span>{{ item.title }}</span>
               </template>
-              <el-menu-item @click="saveNavState('/'+subItem.path)" :index="'/'+subItem.url.substr(0,subItem.url.indexOf('.jsp'))"
+              <el-menu-item @click="saveNavState('/'+subItem.path)"
+                            :index="'/'+subItem.url.substr(0,subItem.url.indexOf('.jsp'))"
                             v-for="subItem in item.children" :key="subItem.id">
                 <template slot="title">
                   <!-- 导航开启路由模式：
@@ -71,7 +72,8 @@
     },
 
     created() {
-      this.getMenuList()
+      // this.getMenuList()
+      this.login()
     },
 
     methods: {
@@ -80,10 +82,28 @@
       },
 
       async getMenuList() {
-        const res = await this.$axios.get('/role/getRolePermissionMenu')
+        const res = await this.$http.post('hbydGame/role/getRolePermissionMenu')
         let permission = res.permission;
-        this.menuList=permission
+        this.menuList = permission
 
+      },
+
+      async login() {
+        this.$http.post("hbydGame/user/login", {
+          "account": 'admin',
+          "password": this.randomString(32) + window.btoa('zte9!@#'),
+          "verifyCode": 'GC65'
+
+        })
+      },
+
+      randomString(e) {
+        e = e || 32;
+        var t = "ABCDEFGHJKMNPQRSTWXYZabcdefhijkmnprstwxyz2345678",
+          a = t.length,
+          n = "";
+        for (let i = 0; i < e; i++) n += t.charAt(Math.floor(Math.random() * a));
+        return n
       },
 
       saveNavState(path) {

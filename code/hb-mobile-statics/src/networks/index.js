@@ -5,27 +5,23 @@ import Vue from "vue";
 import axios from "axios";
 
 let config = {
-  baseURL: 'http://10.61.2.175:8090/hbydGame',
-  headers:{
-    "Access-Control-Allow-Origin":"*",
-    "Access-Control-Max-Age":"3600",
-    "Access-Control-Allow-Headers":"content-type,Authorization",
-    "Access-Control-Allow-Credentials":"true",
-
-
-    /* response.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE");
-        response.setHeader("Access-Control-Max-Age", "3600");
-        response.setHeader("Access-Control-Allow-Headers", "content-type,Authorization");
-         response.setHeader("Access-Control-Allow-Credentials", "true");*/
-  }
+  // baseURL: 'http://10.61.2.175:8090/hbydGame',
+  // baseURL: 'http://127.0.0.1:8090/hbydGame',
+  // baseURL: 'hbydGame'
+  // headers:{
+  //   "Access-Control-Allow-Origin":"*",
+  //   "Access-Control-Max-Age":"3600",
+  //   "Access-Control-Allow-Headers":"content-type,Authorization",
+  //   "Access-Control-Allow-Credentials":"true",
+  // }
 
 };
 const _axios = axios.create(config);
 
 
 /*跨域问题*/
-axios.defaults.baseURL = '/api'
-axios.defaults.headers.post['Content-Type'] = 'application/json';
+// axios.defaults.baseURL = '/api'
+// axios.defaults.headers.post['Content-Type'] = 'application/json';
 
 
 _axios.interceptors.request.use(function (config) {
@@ -48,13 +44,13 @@ Plugin.install = function (Vue,) {
   Vue.axios = _axios;
   window.axios = _axios;
   Object.defineProperties(Vue.prototype, {
-    axios: {
+    http: {
       get() {
         return _axios
       },
     },
 
-    $axios: {
+    $http: {
       get() {
         return _axios
       }
