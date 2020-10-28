@@ -82,7 +82,7 @@
       },
 
       async getMenuList() {
-        const res = await this.$http.post('hbydGame/role/getRolePermissionMenu')
+        const res = await this.$http.post('/role/getRolePermissionMenu')
         let permission = res.permission;
         this.menuList = permission
 

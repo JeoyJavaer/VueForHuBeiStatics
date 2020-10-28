@@ -5,9 +5,11 @@ import Vue from "vue";
 import axios from "axios";
 
 let config = {
+  // baseURL:''
   // baseURL: 'http://10.61.2.175:8090/hbydGame',
   // baseURL: 'http://127.0.0.1:8090/hbydGame',
-  // baseURL: 'hbydGame'
+  // baseURL: 'http://localhost:9090/hubeistatics',
+  // baseURL: '/api'
   // headers:{
   //   "Access-Control-Allow-Origin":"*",
   //   "Access-Control-Max-Age":"3600",

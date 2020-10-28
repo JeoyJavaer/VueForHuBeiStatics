@@ -13,16 +13,22 @@ module.exports={
 
   lintOnSave:false,
     devServer: {
-      proxy: {
-        '/api': {
-          target: 'http://localhost:8090',
-          changeOrigin: true,
-          pathRewrite: {
-            '^/api' : ''
-          }
-        },
 
-      }
+
+      proxy:"http://127.0.0.1:9090",
+      port: 8080
+      // proxy: {
+      //   // '/api': {
+      //   //   target: 'http://localhost:9090',
+      //   //   secure:false,
+      //   //   ws:true,
+      //   //   changeOrigin: true,
+      //   //   pathRewrite: {
+      //   //     '^/api' : ''
+      //   //   }
+      //   // },
+      //
+      // }
     }
 
 }

@@ -126,12 +126,11 @@ public class ShiroRealm extends AuthorizingRealm{
         SimpleAuthenticationInfo authenticationInfo = new SimpleAuthenticationInfo(
                 account,
                 user.getPassword(),
+                ByteSource.Util.bytes(account+salt2),
                 getName()
                 );
-//        HashedCredentialsMatcher matcher = new HashedCredentialsMatcher("md5");
-//        matcher.setHashIterations(2);
 
-        authenticationInfo.setCredentialsSalt(ByteSource.Util.bytes(account+salt2));
+//        authenticationInfo.setCredentialsSalt(ByteSource.Util.bytes(account+salt2));
         return authenticationInfo;
     }
 
