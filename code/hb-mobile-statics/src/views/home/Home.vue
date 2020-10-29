@@ -64,6 +64,7 @@
         </div>
         <div class="order">
           <order-chart
+              ref="orderchartref"
               :neworderlist="orderChart.newOrderList"
               :userorderlist="orderChart.userOrderList"
           />
@@ -259,6 +260,7 @@
         console.log(typeof countNewOrderArray);
         console.log(typeof this.orderChart.userOrderList);
         console.log(typeof this.orderChart.newOrderList);
+        // this.$refs.orderchartref.refresh(this.orderChart.userOrderList,this.orderChart.newOrderList)
       },
 
 

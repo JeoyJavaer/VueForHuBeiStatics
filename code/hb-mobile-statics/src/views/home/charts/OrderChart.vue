@@ -7,23 +7,23 @@
 <script>
 
   import TableEchart from "../../../components/common/TableEchart";
+
   export default {
     name: "OrderChart",
     components: {TableEchart},
-    props:{
-      neworderlist:[],
-      userorderlist:[]
-    },
-    data(){
-      return{
+    // props: {
+    //   neworderlist: [],
+    //   userorderlist: []
+    // },
+    data() {
+      return {
+        // neworderlist:[],
+        // userorderlist:[],
         orderChartOption: {
           title: {
             text: '订单新增趋势'
           },
-          tooltip: {
-            show: true,
-            trigger: "axis",
-          },
+
           tooltip: {  //鼠标经过显示提示框
             show: true,
             trigger: "axis",
@@ -54,7 +54,15 @@
 
         },
       }
+    },
+
+    methods: {
+      refresh() {
+        this.orderChartOption.series[0].data = this.neworderlist
+        this.orderChartOption.series[1].data = this.userorderlist
+      }
     }
+
   }
 </script>
 
