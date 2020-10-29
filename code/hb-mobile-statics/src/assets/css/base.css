@@ -26,9 +26,26 @@ body {
 
 }
 
-.el-table {
+.el-card {
   margin-top: 15px;
-  min-width: 1060px;
+  min-width: 1360px;
 }
+
+.el-table{
+  margin-top: 15px;
+}
+
+.el-pagination{
+  margin-top: 15px;
+}
+
+.left-margin15 {
+  margin-left: 15px;
+}
+.top-margin15{
+  margin-top: 15px;
+}
+
+
 
 
