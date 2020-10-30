@@ -92,6 +92,7 @@
           <template slot-scope="scope">
             <el-button
                 size="mini"
+                type="primary"
                 @click="editClick(scope.row)"
                 icon="el-icon-edit"
             >编辑

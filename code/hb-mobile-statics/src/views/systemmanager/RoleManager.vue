@@ -55,6 +55,7 @@
           <template slot-scope="scope">
             <el-button
                 size="mini"
+                type="primary"
                 @click="editClick( scope.row)"
                 icon="el-icon-edit"
                 >编辑
@@ -63,8 +64,13 @@
                 size="mini"
                 type="danger"
                 icon="el-icon-delete"
-
                 @click="deleteClick(scope.row)">删除
+            </el-button>
+            <el-button
+                size="mini"
+                type="success"
+                icon="el-icon-s-tools"
+                @click="assignClick(scope.row)">分配权限
             </el-button>
           </template>
         </el-table-column>
@@ -133,6 +139,9 @@
         this.getRoleList()
       },
       addClick(){
+
+      },
+      assignClick(row){
 
       }
 
