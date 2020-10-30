@@ -1,6 +1,8 @@
 <template>
   <div>
-    <table-echart :options="visitChartOption"/>
+    <table-echart :options="visitChartOption" elid="dayvisitchart" ref="dayvisitcharttable">
+      <div id="dayvisitchart"></div>
+    </table-echart>
   </div>
 </template>
 
@@ -13,10 +15,35 @@
     components: {TableEchart},
 
     props: {
-      pvlist: [],
-      uvlist: [],
-      orderlist: [],
-      ratelist: []
+      pvlist: {
+        type: Array,
+        default() {
+          return [];
+        }
+      },
+      uvlist: {
+        type: Array,
+        default() {
+          return [];
+        }
+      },
+      orderlist: {
+        type: Array,
+        default() {
+          return {
+            type: Array,
+            default() {
+              return [];
+            }
+          };
+        }
+      },
+      ratelist: {
+        type: Array,
+        default() {
+          return [];
+        }
+      }
     },
     data() {
       return {
@@ -49,28 +76,56 @@
 
           series: [{
             name: "PV",
-            data: this.pvlist,
+            data: [],
             type: 'line'
           }, {
             name: "UV",
-            data: this.uvlist,
+            data: [],
             type: 'line'
           }, {
             name: "订购量",
-            data: this.orderlist,
+            data: [],
             type: 'line'
           }, {
             name: "转化率",
-            data: this.ratelist,
+            data: [],
             type: 'line'
           }],
 
         },
       }
+    },
+
+    watch: {
+      pvlist(newValue, oldValue) {
+        this.visitChartOption.series[0].data = newValue
+        this.$refs.dayvisitcharttable.reload()
+      },
+
+      uvlist(newValue, oldValue) {
+        this.visitChartOption.series[1].data = newValue
+        this.$refs.dayvisitcharttable.reload()
+      },
+
+      orderlist(newValue, oldValue) {
+        this.visitChartOption.series[2].data = newValue
+        this.$refs.dayvisitcharttable.reload()
+      },
+
+      ratelist(newValue, oldValue) {
+        this.visitChartOption.series[3].data = newValue
+        this.$refs.dayvisitcharttable.reload()
+      },
+
+
     }
   }
 </script>
 
 <style scoped>
 
+  #dayvisitchart {
+    width: 100%;
+    height: 100%;
+  }
 </style>

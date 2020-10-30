@@ -1,16 +1,19 @@
 <template>
   <div class="chart-container">
-    <div ref="tablechart"></div>
+    <slot></slot>
   </div>
 </template>
 
 <script>
 
-  import echarts from 'echarts/lib/echarts'
+  import echarts from 'echarts'
+
+  let cusEchart
 
   export default {
     name: "TableEchart",
     props: {
+      elid: 0,
       options: {}
     },
     mounted() {
@@ -19,7 +22,19 @@
 
     methods: {
       initChart() {
-        let cusEchart = echarts.init(this.$refs.tablechart, this.options);
+        var cusEchart
+        if (cusEchart) {
+          cusEchart.setOption(this.options)
+        } else {
+          cusEchart = echarts.init(document.getElementById(this.elid));
+          cusEchart.setOption(this.options)
+        }
+
+
+      },
+
+      reload() {
+        this.initChart()
       }
     }
   }
@@ -27,7 +42,7 @@
 
 <style scoped>
   .chart-container {
-    width: 100%;
-    height: 100%;
+    width: 580px;
+    height: 320px;
   }
 </style>

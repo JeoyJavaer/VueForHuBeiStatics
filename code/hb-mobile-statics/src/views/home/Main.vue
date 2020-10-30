@@ -93,6 +93,7 @@
     created() {
       this.getMenuList()
       // this.login()
+      this.activePath = window.sessionStorage.getItem('activePath')
     },
 
     methods: {
@@ -126,7 +127,7 @@
       },
 
       saveNavState(path) {
-        window.sessionStorage.setItem('activePath', path)
+        window.sessionStorage.setItem('activePath', '/'+path)
       },
 
       logout() {

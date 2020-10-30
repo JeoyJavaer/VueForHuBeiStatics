@@ -1,6 +1,8 @@
 <template>
-  <div>
-    <table-echart :options="orderChartOption"/>
+  <div >
+    <table-echart :options="orderChartOption" elid="orderchart" ref="ordercharttable">
+      <div id="orderchart"></div>
+    </table-echart>
   </div>
 </template>
 
@@ -11,14 +13,22 @@
   export default {
     name: "OrderChart",
     components: {TableEchart},
-    // props: {
-    //   neworderlist: [],
-    //   userorderlist: []
-    // },
+    props: {
+      neworderlist: {
+        type: Array,
+        default() {
+          return [];
+        }
+      },
+      userorderlist: {
+        type: Array,
+        default() {
+          return [];
+        }
+      }
+    },
     data() {
       return {
-        // neworderlist:[],
-        // userorderlist:[],
         orderChartOption: {
           title: {
             text: '订单新增趋势'
@@ -42,18 +52,29 @@
           series: [
             {
               name: "订购订单数",
-              data: this.neworderlist,
+              data: [],
               type: 'line'
             },
             {
               name: "订购人数",
-              data: this.userorderlist,
+              data: [],
               type: "line",
             }
           ],
 
         },
       }
+    },
+
+    watch:{
+      neworderlist(newValue,oldValue){
+        this.orderChartOption.series[0].data=newValue
+        this.$refs.ordercharttable.reload()
+      },
+      userorderlist(newValue,oldValue){
+        this.orderChartOption.series[1].data=newValue
+        this.$refs.ordercharttable.reload()
+      },
     },
 
     methods: {
@@ -67,5 +88,8 @@
 </script>
 
 <style scoped>
-
+#orderchart{
+  width: 100%;
+  height: 100%;
+}
 </style>

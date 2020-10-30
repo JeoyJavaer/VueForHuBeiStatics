@@ -1,6 +1,8 @@
 <template>
   <div>
-    <table-echart :options="amountChartOption"/>
+    <table-echart :options="amountChartOption" elid="amountchart" ref="amountcharttable">
+      <div id="amountchart"></div>
+    </table-echart>
   </div>
 </template>
 
@@ -12,7 +14,12 @@
     components: {TableEchart},
 
     props: {
-      pricelist: []
+      pricelist: {
+        type: Array,
+        default() {
+          return [];
+        }
+      }
     },
     data() {
       return {
@@ -38,17 +45,27 @@
           series: [
             {
               name: "订购金额",
-              data: this.pricelist,
+              data: [],
               type: 'line'
             }
           ],
 
         },
       }
+    },
+
+    watch: {
+      pricelist(newValue, oldValue) {
+        this.amountChartOption.series[0].data = newValue
+        this.$refs.amountcharttable.reload()
+      }
     }
   }
 </script>
 
 <style scoped>
-
+  #amountchart {
+    width: 100%;
+    height: 100%;
+  }
 </style>

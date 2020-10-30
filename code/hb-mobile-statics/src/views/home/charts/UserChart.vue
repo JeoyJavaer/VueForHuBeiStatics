@@ -1,6 +1,8 @@
 <template>
   <div>
-    <table-echart :options="userChartOption"/>
+    <table-echart :options="userChartOption" elid="userchart" ref="usercharttable">
+      <div id="userchart"></div>
+    </table-echart>
   </div>
 </template>
 
@@ -12,8 +14,18 @@
     components: {TableEchart},
 
     props: {
-      newlist: [],
-      activelist: []
+      newlist:  {
+        type:Array,
+        default() {
+          return [];
+        }
+      },
+      activelist:  {
+        type:Array,
+        default() {
+          return [];
+        }
+      }
     },
     data() {
       return {
@@ -51,10 +63,25 @@
           ],
         },
       }
+    },
+
+    watch:{
+      newlist(newValue,oldValue){
+        this.userChartOption.series[0].data=newValue
+        this.$refs.usercharttable.reload()
+      },
+      activelist(newValue,oldValue){
+        this.userChartOption.series[1].data=newValue
+        this.$refs.usercharttable.reload()
+      },
+
     }
   }
 </script>
 
 <style scoped>
-
+  #userchart {
+    width: 100%;
+    height: 100%;
+  }
 </style>
