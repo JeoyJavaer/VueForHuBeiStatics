@@ -18,7 +18,7 @@
         </el-col>
 
         <!--目标-->
-        <el-col :span="3">
+        <el-col :span="4">
           <span>包名:</span>
           <el-input
               class="input-username"
@@ -52,7 +52,7 @@
         </el-col>
 
       </el-row>
-      <el-row>
+      <el-row class="top-margin30">
         <el-col :span="8">
           <el-button class="left-margin15" type="success" icon="el-icon-search" @click="searchClick">查询</el-button>
           <el-button class="left-margin15" type="warning" icon="el-icon-error" @click="resetClick">重置</el-button>
@@ -70,11 +70,13 @@
           <el-table-column
               prop="gameRank"
               label="排名"
+              width="60"
           >
           </el-table-column>
           <el-table-column
               prop="rankChange"
               label="趋势"
+              width="80"
           >
           </el-table-column>
           <el-table-column
@@ -87,6 +89,7 @@
           </el-table-column>
           <el-table-column
               prop="cpName"
+              width="80"
               label="CP">
           </el-table-column>
           <el-table-column
@@ -177,5 +180,8 @@
 </script>
 
 <style scoped>
-
+  .input-username {
+    width: 60%;
+    margin-left: 15px;
+  }
 </style>
