@@ -45,11 +45,14 @@
           <el-date-picker
               class="left-margin15"
               v-model="query.dayDate"
-              placeholder="开始日期"
+              placeholder="时间"
               default-time="12:00:00">
           </el-date-picker>
 
         </el-col>
+
+      </el-row>
+      <el-row>
         <el-col :span="8">
           <el-button class="left-margin15" type="success" icon="el-icon-search" @click="searchClick">查询</el-button>
           <el-button class="left-margin15" type="warning" icon="el-icon-error" @click="resetClick">重置</el-button>
