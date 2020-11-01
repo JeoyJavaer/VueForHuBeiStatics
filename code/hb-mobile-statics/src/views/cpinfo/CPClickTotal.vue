@@ -4,7 +4,8 @@
 
 <script>
   export default {
-    name: "CPClickTotal"
+    name: "CPClickTotal",
+
   }
 </script>
 

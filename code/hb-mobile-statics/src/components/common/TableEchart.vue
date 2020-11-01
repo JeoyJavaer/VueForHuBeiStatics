@@ -7,9 +7,7 @@
 <script>
 
   import echarts from 'echarts'
-
-  let cusEchart
-
+  // let  cusEchart
   export default {
     name: "TableEchart",
     props: {
@@ -29,8 +27,6 @@
           cusEchart = echarts.init(document.getElementById(this.elid));
           cusEchart.setOption(this.options)
         }
-
-
       },
 
       reload() {
@@ -42,7 +38,8 @@
 
 <style scoped>
   .chart-container {
-    width: 580px;
-    height: 320px;
+
+    width: 100%;
+    height: 100%;
   }
 </style>

@@ -89,7 +89,6 @@
 
 <style scoped>
 #orderchart{
-  width: 100%;
-  height: 100%;
-}
+  width: 580px;
+  height: 320px;}
 </style>

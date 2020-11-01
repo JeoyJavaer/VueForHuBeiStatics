@@ -34,6 +34,7 @@ import {
   Alert,
   DatePicker,
     PageHeader,
+    Link,
 } from 'element-ui'
 
 
@@ -68,6 +69,7 @@ Vue.use(Step)
 Vue.use(Alert)
 Vue.use(DatePicker)
 Vue.use(PageHeader)
+Vue.use(Link)
 Vue.prototype.$message = Message
 Vue.prototype.$confirm = MessageBox.confirm
 

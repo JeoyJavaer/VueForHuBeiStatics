@@ -1,35 +1,39 @@
-module.exports={
-  configureWebpack:{
-    resolve:{
-      alias:{
-        'assets':'@/assets',
-        'components':'@/components',
-        'network':'@/network',
-        'views':'@/views',
-        'plugins':'@/plugins'
-      }
-    }
-  },
+module.exports = {
+    configureWebpack: {
+        resolve: {
+            alias: {
+                'assets': '@/assets',
+                'components': '@/components',
+                'network': '@/network',
+                'views': '@/views',
+                'plugins': '@/plugins'
+            },
+        }
+    },
+    chainWebpack: config => {
+        // 一个规则里的 基础Loader
+        // svg是个基础loader
+        const svgRule = config.module.rule('svg')
 
-  lintOnSave:false,
+        // 清除已有的所有 loader。
+        // 如果你不这样做，接下来的 loader 会附加在该规则现有的 loader 之后。
+        svgRule.uses.clear()
+
+        // 添加要替换的 loader
+        svgRule
+            .use('svg-sprite-loader')
+            .loader('svg-sprite-loader')
+            .options({
+                symbolId: 'icon-[name]'
+            })
+    },
+
+
+    lintOnSave: false,
     devServer: {
+        proxy: "http://127.0.0.1:8090",
+        port: 8080
 
-
-      // proxy:"http://127.0.0.1:9090",
-      proxy:"http://127.0.0.1:8090",
-      port: 8080
-      // proxy: {
-      //   // '/api': {
-      //   //   target: 'http://localhost:9090',
-      //   //   secure:false,
-      //   //   ws:true,
-      //   //   changeOrigin: true,
-      //   //   pathRewrite: {
-      //   //     '^/api' : ''
-      //   //   }
-      //   // },
-      //
-      // }
     }
 
 }

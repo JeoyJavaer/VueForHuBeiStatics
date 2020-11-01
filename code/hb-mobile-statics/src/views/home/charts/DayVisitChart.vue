@@ -54,12 +54,7 @@
           tooltip: {
             show: true,
             trigger: "axis",
-            axisPointer: {
-              type: 'cross',
-              label: {
-                backgroundColor: '#E9EEF3'
-              }
-            }
+
           },
           legend: {  //不同的线的类型
             data: ["订购订单数", "订购人数"],
@@ -125,7 +120,7 @@
 <style scoped>
 
   #dayvisitchart {
-    width: 100%;
-    height: 100%;
+    width: 580px;
+    height: 320px;
   }
 </style>

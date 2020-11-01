@@ -36,6 +36,7 @@
           tooltip: {
             show: true,
             trigger: "axis",
+
           },
           legend: {  //不同的线的类型
             data: ["首次登录人数", "活跃用户人数"],
@@ -81,7 +82,7 @@
 
 <style scoped>
   #userchart {
-    width: 100%;
-    height: 100%;
+    width: 580px;
+    height: 320px;
   }
 </style>

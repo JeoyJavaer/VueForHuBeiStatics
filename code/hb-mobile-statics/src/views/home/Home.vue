@@ -6,6 +6,7 @@
       <el-breadcrumb-item>数据概览</el-breadcrumb-item>
     </el-breadcrumb>
     <el-card>
+      <panel-group :total-p-v="totalPV" :total-order="totalOrder" :total-u-v="totalUV"/>
       <el-row>
         <!--日期选择框-->
         <el-col :span="10">
@@ -30,23 +31,6 @@
         <el-col :span="8">
           <el-button class="left-margin15" type="success" icon="el-icon-search" @click="searchClick">查询</el-button>
           <el-button class="left-margin15" type="info" icon="el-icon-error" @click="resetClick">重置</el-button>
-        </el-col>
-      </el-row>
-      <el-row>
-        <el-col :span="8">
-          <el-card class="no-border">
-            <span>总订购量:{{this.totalOrder}}</span>
-          </el-card>
-        </el-col>
-        <el-col :span="8">
-          <el-card class="no-border">
-            <span>总PV:{{this.totalPV}}</span>
-          </el-card>
-        </el-col>
-        <el-col :span="7">
-          <el-card class="no-border">
-            <span>总UV:{{this.totalUV}}</span>
-          </el-card>
         </el-col>
       </el-row>
       <div class="stat-container top-margin30">
@@ -84,10 +68,11 @@
   import UserChart from "./charts/UserChart";
   import OrderChart from "./charts/OrderChart";
   import AmountChart from "./charts/AmountChart";
+  import PanelGroup from "@/views/home/child/PanelGroup";
 
   export default {
     name: "Home",
-    components: {DayVisitChart, UserChart, OrderChart, AmountChart},
+    components: {DayVisitChart, UserChart, OrderChart, AmountChart,PanelGroup},
     data() {
       return {
         query: {
@@ -116,14 +101,6 @@
         totalUV: 0,
         totalOrder:0,
       }
-    },
-
-    computed: {
-      //
-      // totalOrder() {
-      //   return 0
-      // },
-
     },
 
     mounted() {
@@ -157,8 +134,8 @@
         // const res = await this.$http.get(`/hbydGame/gameVisit/getSumPvUv?beginDate=${this.beginDate}&endDate=${this.endDate}`)
         const res = await this.$http.get(`/hbydGame/gameVisit/getSumPvUv`)
         console.log(res);
-        this.totalPV = res.sumPv
-        this.totalUV = res.sumUv
+        this.totalPV = Number(res.sumPv)
+        this.totalUV = Number(res.sumUv)
       },
 
       async initVisitChart() {
@@ -201,10 +178,7 @@
       },
       processVisitCountData(res) {
 
-
         //1 总的订单量
-
-
         //2每天的pv，UV等数据
         var countPVArray = [];
         var countUVArray = [];
@@ -224,7 +198,7 @@
         this.visitChart.UVList = countUVArray
         this.visitChart.OrderList = countOrderArray
         this.visitChart.rateList = countOrderRateArray
-        this.totalOrder=totalCount
+        this.totalOrder=Number(totalCount)
 
       },
 
@@ -253,17 +227,14 @@
           var startdate = (lastM < 10 ? "0" + lastM : lastM) + "-" + (lastD < 10 ? "0" + lastD : lastD);
           data[startdate] = 0;
         }
-
         var countNewUserJson = {};  //构建json对象，日期为key 统计数值为value
         for (var i = 0; i < countNewUser.length; i++) {
           countNewUserJson[countNewUser[i].date] = countNewUser[i].count;
         }
-
         var countActiveUserJson = {};//构建json对象，日期为key 统计数值为value
         for (var i = 0; i < countActiveUser.length; i++) {
           countActiveUserJson[countActiveUser[i].date] = countActiveUser[i].count;
         }
-
         //构建图表data数组
         for (var key in data) {
           if (countNewUserJson[key] != null) {
@@ -271,16 +242,12 @@
           } else {
             countNewUserArray.unshift([key, data[key]]);
           }
-
-
           if (countActiveUserJson[key] != null) {
             countActiveUserArray.unshift([key, countActiveUserJson[key]]);
           } else {
             countActiveUserArray.unshift([key, data[key]]);
           }
-
         }
-
         this.userChart.newList = countNewUserArray
         this.userChart.activeList = countActiveUserArray
       },
@@ -330,21 +297,15 @@
           } else {
             countNewOrderArray.unshift([key, data[key]]);
           }
-
-
           if (countUserOrderJson[key] != null) {
             countUserOrderArray.unshift([key, countUserOrderJson[key]]);
           } else {
             countUserOrderArray.unshift([key, data[key]]);
           }
-
         }
-
         this.orderChart.userOrderList = countUserOrderArray
         this.orderChart.newOrderList = countNewOrderArray
       },
-
-
       async initAmountCharts() {
         //获取总的金额
         const res = await this.$http.post(`/hbydGame/homePage/countPrice`, {'beginDate': '', 'endDate': ''})
@@ -385,17 +346,11 @@
         this.amountChart.priceList = countNewPriceArray
 
       }
-
-
     }
   }
 </script>
 
 <style scoped>
-  .no-border {
-
-  }
-
   .stat-container {
     flex: 1;
     width: 100%;
