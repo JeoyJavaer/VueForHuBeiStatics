@@ -70,6 +70,7 @@
       </el-row>
 
       <div class="data-container">
+        
         <!-- 数据的表格展示-->
         <el-table
             stripe
