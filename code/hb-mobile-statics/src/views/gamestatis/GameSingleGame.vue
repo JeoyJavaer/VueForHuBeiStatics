@@ -147,7 +147,7 @@
           packageName:'',
           beginDate:'',
           endDate:'',
-          cpId:0
+          cpId:''
         },
         gameList:[],
         cpList:[],
@@ -190,12 +190,15 @@
 
       },
       exportClick(){
-        ß
+
       }
     }
   }
 </script>
 
 <style scoped>
-
+.input-username {
+  width: 60%;
+  margin-left: 15px;
+}
 </style>
