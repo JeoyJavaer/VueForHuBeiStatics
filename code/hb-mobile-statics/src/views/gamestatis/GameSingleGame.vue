@@ -18,7 +18,7 @@
         </el-col>
 
         <!--目标-->
-        <el-col :span="3">
+        <el-col :span="4">
           <span>包名:</span>
           <el-input
               class="input-username"
@@ -61,7 +61,7 @@
         </el-col>
 
       </el-row>
-      <el-row>
+      <el-row class="top-margin30">
         <el-col :span="8">
           <el-button class="left-margin15" type="success" icon="el-icon-search" @click="searchClick">查询</el-button>
           <el-button class="left-margin15" type="warning" icon="el-icon-error" @click="resetClick">重置</el-button>
@@ -75,16 +75,10 @@
             stripe
             border
             :data="gameList">
-
           <el-table-column
-              prop="gameRank"
-              label="排名"
-          >
-          </el-table-column>
-          <el-table-column
-              prop="rankChange"
-              label="趋势"
-          >
+              type="index"
+              indent="#"
+              width="50">
           </el-table-column>
           <el-table-column
               prop="gameName"
@@ -96,28 +90,26 @@
           </el-table-column>
           <el-table-column
               prop="cpName"
+              width="80"
               label="CP">
           </el-table-column>
           <el-table-column
+              prop="yesterdayCountPV"
+              label="订购量">
+          </el-table-column>
+          <el-table-column
               prop="countPV"
-              label="PV">
+              label="用户点击量">
           </el-table-column>
           <el-table-column
               prop="countUV"
-              label="UV">
-          </el-table-column>
-          <el-table-column
-              prop="yesterdayCountPV"
-              label="前一日PV">
+              label="用户量">
           </el-table-column>
           <el-table-column
               prop="yesterdayCountUV"
-              label="前一日UV">
+              label="订购发起量">
           </el-table-column>
-          <el-table-column
-              prop="countDayTime"
-              label="时间">
-          </el-table-column>
+
         </el-table>
         <el-pagination
             class="user-list-pagination"
@@ -170,7 +162,7 @@
       },
 
       async getGameListInfo(){
-        const  res= await this.$http.get(`/hbydGame/leadboardGame/leadboardGameDay?page=${this.query.page}&limit=${this.query.limit}&gameName=${this.query.gameName}&packageName=${this.query.packageName}&dayDate=${this.query.dayDate}&cpId=${this.query.cpId}`)
+        const  res= await this.$http.get(`/hbydGame/leadboardGame/leadboardGameDay?page=${this.query.page}&limit=${this.query.limit}&gameName=${this.query.gameName}&packageName=${this.query.packageName}&cpId=${this.query.cpId}`)
         this.gameList=res.data
         this.total=res.count
       },
@@ -197,8 +189,9 @@
 </script>
 
 <style scoped>
-.input-username {
-  width: 60%;
-  margin-left: 15px;
-}
+
+  .input-username {
+    width: 60%;
+    margin-left: 15px;
+  }
 </style>

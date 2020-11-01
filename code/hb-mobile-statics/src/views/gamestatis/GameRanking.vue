@@ -139,7 +139,7 @@
           gameName:'',
           packageName:'',
           dayDate:'',
-          cpId:0
+          cpId:''
         },
         gameList:[],
         cpList:[],
