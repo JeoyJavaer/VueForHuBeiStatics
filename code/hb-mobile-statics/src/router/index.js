@@ -84,7 +84,7 @@ const routes = [
 
 
       {path:'/views/gameCp/gameCpDgCount.jsp',component:CPGameClick},
-      {path:'/views/gameCp/gameCpDgCount.jsp',component:CPClickTotal},
+      {path:'/views/gameCp/gameCpAllCount.jsp',component:CPClickTotal},
 
       {path:'/views/retentionRate/retentionRate.jsp',component:UserRetention},
     ]
