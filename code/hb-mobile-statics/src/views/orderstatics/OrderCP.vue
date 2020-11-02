@@ -59,13 +59,11 @@
         </el-table-column>
         <el-table-column
             prop="cpId"
-            label="cpid"
-        >
+            label="cpid" >
         </el-table-column>
         <el-table-column
             prop="cpName"
-            label="CP"
-        >
+            label="CP">
         </el-table-column>
         <el-table-column
             prop="orderCount"
