@@ -14,15 +14,17 @@
             <span>查询日期:</span>
             <el-date-picker
                 class="left-margin15"
+                format="yyyy 年 MM 月 dd 日"
+                value-format="yyyy-MM-dd"
                 v-model="query.beginDate"
-                type="datetime"
                 placeholder="开始日期"
-                default-time="12:00:00">
+                >
             </el-date-picker>
             <span> - </span>
             <el-date-picker
                 v-model="query.endDate"
-                type="datetime"
+                format="yyyy 年 MM 月 dd 日"
+                value-format="yyyy-MM-dd"
                 default-time="12:00:00"
                 placeholder="结束日期">
             </el-date-picker>
@@ -69,6 +71,7 @@
   import OrderChart from "./charts/OrderChart";
   import AmountChart from "./charts/AmountChart";
   import PanelGroup from "@/views/home/child/PanelGroup";
+  import {getDayStr,getTimeStr} from "../../utils/date";
 
   export default {
     name: "Home",
@@ -109,10 +112,14 @@
 
     methods: {
       searchClick() {
+        console.log(this.query.beginDate);
         console.log(this.query.endDate);
-        let endDate = this.query.endDate;
-        let date = new Date(endDate.getFullYear(),endDate.getMonth(),endDate.getDate());
-        console.log(date);
+        // let endDate = this.query.endDate;
+        // console.log(getDayStr(this.query.beginDate))
+        // console.log(getTimeStr(endDate))
+
+
+
 
       },
 

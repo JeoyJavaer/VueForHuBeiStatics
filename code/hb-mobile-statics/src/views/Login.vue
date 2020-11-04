@@ -181,7 +181,7 @@ export default {
 }
 
 .login-body {
-  height: 80%;
+  height: 80vh;
   display: flex;
   background-image: url("~assets/image/bg-3.jpg");
 }
@@ -190,7 +190,7 @@ export default {
   width: 25%;
   margin: 10%;
   margin-left: 20%;
-  height: 407px;
+  height: 63%;
   /*border: 1px solid red;*/
   background: url("~assets/image/d.png") no-repeat;
   background-size: 100% 100%;

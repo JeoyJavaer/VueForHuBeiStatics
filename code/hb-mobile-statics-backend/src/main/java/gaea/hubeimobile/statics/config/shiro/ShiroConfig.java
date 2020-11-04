@@ -1,5 +1,6 @@
 package gaea.hubeimobile.statics.config.shiro;
 
+import com.fasterxml.jackson.databind.util.JSONPObject;
 import gaea.hubeimobile.statics.config.shiro.realm.ShiroRealm;
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
@@ -38,6 +39,8 @@ public class ShiroConfig {
         HashedCredentialsMatcher hashedCredentialsMatcher = new HashedCredentialsMatcher();
         //加密方式
         hashedCredentialsMatcher.setHashAlgorithmName("MD5");
+        JSONPObject
+
         //加密次数
         hashedCredentialsMatcher.setHashIterations(2);
         //存储散列后的密码是否为16进制

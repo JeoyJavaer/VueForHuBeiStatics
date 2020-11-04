@@ -123,6 +123,8 @@ public class ShiroRealm extends AuthorizingRealm{
             throw new LockedAccountException();
         }
         String salt2 = user.getSalt();
+        System.out.println("user:"+user.toString());
+        System.out.println("salt:"+salt2);
         SimpleAuthenticationInfo authenticationInfo = new SimpleAuthenticationInfo(
                 account,
                 user.getPassword(),
@@ -131,6 +133,7 @@ public class ShiroRealm extends AuthorizingRealm{
                 );
 
 //        authenticationInfo.setCredentialsSalt(ByteSource.Util.bytes(account+salt2));
+        System.out.println("authenticationInfo:"+authenticationInfo.toString());
         return authenticationInfo;
     }
 

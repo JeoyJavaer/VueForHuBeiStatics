@@ -9,7 +9,7 @@
           <div class="card-panel-text">
             总订购量
           </div>
-          <count-to :start-val="0" :end-val="totalOrder" :duration="2600" class="card-panel-num" />
+          <count-to :start-val="0" :end-val="totalOrder" :duration="2100" class="card-panel-num" />
         </div>
       </div>
     </el-col>
@@ -22,7 +22,7 @@
           <div class="card-panel-text">
             总PV
           </div>
-          <count-to :start-val="0" :end-val="totalPV" :duration="3000" class="card-panel-num" />
+          <count-to :start-val="0" :end-val="totalPV" :duration="1700" class="card-panel-num" />
         </div>
       </div>
     </el-col>
@@ -35,7 +35,7 @@
           <div class="card-panel-text">
             总UV
           </div>
-          <count-to :start-val="0" :end-val="totalUV" :duration="3200" class="card-panel-num" />
+          <count-to :start-val="0" :end-val="totalUV" :duration="1500" class="card-panel-num" />
         </div>
       </div>
     </el-col>
@@ -46,9 +46,9 @@
         </div>
         <div class="card-panel-description">
           <div class="card-panel-text">
-            转化率
+            转化率(千分率)
           </div>
-          <count-to :start-val="0" :end-val="rate" :duration="3600" class="card-panel-num" />
+          <count-to :start-val="0" :end-val="rate" :duration="1600" class="card-panel-num" />
         </div>
       </div>
     </el-col>
@@ -85,8 +85,10 @@ export default {
   },
   computed:{
     rate(){
-      const num = (this.totalOrder / this.totalUV) * 100 + '';
-      return Math.round(num * 100)/100;
+      const num = ((this.totalOrder / this.totalUV) * 1000).toFixed(2) ;
+      console.log(num);
+      // return Math.round(num * 1000)/1000;
+      return  new Number(num)
     }
   },
   methods: {
