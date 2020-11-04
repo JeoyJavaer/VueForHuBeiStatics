@@ -133,10 +133,7 @@ export default {
       },
       total: 0,
       behaviorList: [],
-      options: [{
-        value: '',
-        label: '用户行为'
-      }, {
+      options: [ {
         value: '启动游戏',
         label: '启动游戏'
       }, {
