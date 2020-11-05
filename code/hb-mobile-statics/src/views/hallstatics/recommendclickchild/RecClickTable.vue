@@ -1,46 +1,40 @@
 <template>
   <div>
-    <table-echart :options="options" elid="cpvisitchartid" ref="cpvisitchartref">
-      <div id="cpvisitchartid" class="cp-visit-chart-container"></div>
+    <table-echart :options="options" elid="recclicktableid" ref="recclicktableref">
+      <div id="recclicktableid" class="rec-click-table-container"></div>
     </table-echart>
   </div>
 </template>
 
 <script>
   import TableEchart from "../../../components/common/TableEchart";
-
   export default {
-    name: "CPVisitChart",
-    components: {TableEchart},
+    name: "RecClickTable",
+    components:{TableEchart},
     props: {
 
-      orderlist:{
+      pvlist:{
         type:Array,
         default(){
           return []
         }
       },
 
-      clicklist:{
+      uvlist:{
         type:Array,
         default(){
           return []
         }
       },
 
-      transactionlist:{
-        type:Array,
-        default(){
-          return []
-        }
-      },
+
     },
     data() {
       return {
 
         options : {
           title : {
-            text : 'CP数据统计'
+            text : '推荐位PvUv统计'
           },
           tooltip : { //鼠标经过显示提示框
             show : true,
@@ -50,15 +44,18 @@
             data : [ "播放总次数" ]
           },
           xAxis : {
-            name : "CP",
+            name : "推荐位名称",
             type : 'category',
             axisLabel : {
               interval : 0,//代表显示所有x轴标签显示
-              rotate : 45, //代表逆时针旋转45度
+              rotate : 25, //代表逆时针旋转45度
+              formatter : function(value) {
+                return value.split("/")[1];
+              }
             }
           },
           yAxis : {
-            name : "订购量/游戏点击量/订购发起",
+            name : "PV/UV",
             type : 'value'
           },
           toolbox : { //工具栏
@@ -74,26 +71,16 @@
               saveAsImage : {}
             }
           },
-          dataZoom : [ //滚动条
-            {
-              type : 'slider',
-              show : true,
-              start : 0,
-              end : 100
-            } ],
+
           series : [ {
-            name : "订购量 ",
+            name : "PV",
             data : [],
             type : 'line'
           },{
-            name : "游戏点击量",
+            name : "UV",
             data : [],
             type : 'line'
-          },{
-            name : "订购发起量",
-            data : [],
-            type : 'line'
-          }]
+          } ]
         },
 
 
@@ -101,27 +88,21 @@
       }
     },
     watch:{
-      orderlist(newValue,oldValue){
+      pvlist(newValue,oldValue){
         this.options.series[0].data=newValue
-        this.$refs.cpvisitchartref.reload()
+        this.$refs.recclicktableref.reload()
       },
-      clicklist(newValue,oldValue){
+      uvlist(newValue,oldValue){
         this.options.series[1].data=newValue
-        this.$refs.cpvisitchartref.reload()
+        this.$refs.recclicktableref.reload()
       },
-
-      transactionlist(newValue,oldValue){
-        this.options.series[2].data=newValue
-        this.$refs.cpvisitchartref.reload()
-      }
     }
-
   }
 </script>
 
 <style scoped>
-.cp-visit-chart-container{
-  width: 1358px;
-  height: 480px;
-}
+  .rec-click-table-container{
+    width: 1358px;
+    height: 480px;
+  }
 </style>
