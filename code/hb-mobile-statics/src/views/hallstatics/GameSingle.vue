@@ -218,23 +218,23 @@
         var pvPieData = [];
         var uvPieData = [];
 
-        for(var i=0; i < res_data.length;i++ ){
+        for(let  item of res_data){
 
 
-          let s = res_data[i].gameName+" / "+res_data[i].cpName+" / "+res_data[i].countDayTime;
-          countPVArray.push([s, res_data[i].countPV]);
-          countUVArray.push([s, res_data[i].countUV]);
+          let s = item.gameName+" / "+item.cpName+" / "+item.countDayTime;
+          countPVArray.push([s, item.countPV]);
+          countUVArray.push([s, item.countUV]);
 
 
 
           var pvJson = {};
-          pvJson.name = res_data[i].gameName;
-          pvJson.value = res.data[i].countPV;
+          pvJson.name = item.gameName;
+          pvJson.value = item.countPV;
           pvPieData.push(pvJson);
 
           var uvJson = {};
-          uvJson.name = res_data[i].gameName;
-          uvJson.value = res.data[i].countUV;
+          uvJson.name = item.gameName;
+          uvJson.value = item.countUV;
           uvPieData.push(uvJson);
         }
 
