@@ -69,7 +69,7 @@ const routes = [
       {path:'/views/count/recommendGame.jsp',component:RecommendVisit},
       {path:'/views/count/activityGame.jsp',component:CarouselFigureVisit},
       {path:'/views/gameDetail/gameDetailCountPvUv.jsp',component:DetailPageClick},
-      {path:'/views/gameDetail/gameDetailGameCountPvUv.jsp',component:DetailPageClick},
+      {path:'/views/gameDetail/gameDetailCountPvUv.jsp',component:DetailPageClick},
       {path:'/views/gameDetail/gameDetailGameCountPvUv.jsp',component:DetailGame},
 
       {path:'/views/userAction/userAction.jsp',component:UserBehavior},
