@@ -1,2 +1,4 @@
 /hbydGame_Statistics/*.iml
 /hbydGame_Statistics/.idea
+/hbydGame_Statistics/src/main/resources/properties/db_config.properties
+/code/hb-mobile-statics-backend/src/main/resources/application-dev.yml
