@@ -19,7 +19,7 @@
             </el-form-item>
             <el-form-item label="验证码:" prop="verifyCode" class="code-form-item">
               <el-input clearable class="input-code" v-model="loginData.verifyCode"></el-input>
-              <img src="http://localhost:8090/hbydGame/verify/getVerifyCode" class="code-img">
+              <img src="http://localhost:8090/hbydGame/verify/getVerifyCode" class="code-img" @click="reloadCode">
             </el-form-item>
             <el-form-item class="login-form-btn">
               <el-button type="primary" @click="login()">登录</el-button>
@@ -31,7 +31,8 @@
       </div>
       <!--      底部链接可以直接到游戏大厅页面-->
       <div class="login-bottom">
-        <el-link underline href="https://cmcchb.opcd.com.cn:9528/hbyd_gameHall/index.html" type="info">爱家游戏大厅</el-link>
+        <el-link underline href="https://cmcchb.opcd.com.cn:9528/hbyd_gameHall/index.html" type="info" class="link-aijia">爱家游戏大厅</el-link>
+        <el-link underline href="https://cmcchb.opcd.com.cn:9528/hbyd_gameHall/index.html" type="info">爱家游戏管理后台</el-link>
       </div>
     </div>
   </div>
@@ -81,6 +82,10 @@ export default {
       this.$router.push('/main')
     },
     resetForm() {
+
+    },
+
+    reloadCode(){
 
     }
 
@@ -151,6 +156,7 @@ export default {
   /*padding-left: 15px;*/
   padding: 0;
 
+
 }
 
 .code-form-item {
@@ -176,6 +182,9 @@ export default {
   right: 0;
   bottom: 0;
   font-size: 48px;
+  display: flex;
+  align-content: center;
+  justify-content: center;
   /*alignment: center;*/
   /*align-content: center;*/
 }
@@ -192,7 +201,7 @@ export default {
   margin-left: 20%;
   height: 63%;
   /*border: 1px solid red;*/
-  background: url("~assets/image/d.png") no-repeat;
+  /*background: url("~assets/image/d.png") no-repeat;*/
   background-size: 100% 100%;
   box-sizing: border-box;
   float: left;
@@ -204,14 +213,14 @@ export default {
 
 }
 
-@-webkit-keyframes rotation {
-  from {
-    -webkit-transform: rotate(0deg);
-  }
-  to {
-    -webkit-transform: rotate(360deg);
-  }
-}
+/*@-webkit-keyframes rotation {*/
+/*  from {*/
+/*    -webkit-transform: rotate(0deg);*/
+/*  }*/
+/*  to {*/
+/*    -webkit-transform: rotate(360deg);*/
+/*  }*/
+/*}*/
 
 .login-p{
   margin-top: 15px;
@@ -223,6 +232,10 @@ export default {
 
 }
 
+
+  .link-aijia{
+    margin: 0  30px;
+  }
 
 
 

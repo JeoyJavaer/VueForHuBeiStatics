@@ -30,7 +30,11 @@
       <el-table
           stripe
           border
+          @expand-change="handleExpand"
           :data="roleList">
+        <el-table-column type="expand" >
+
+        </el-table-column>
         <el-table-column
             type="index"
             indent="#"
@@ -38,8 +42,7 @@
         </el-table-column>
         <el-table-column
             prop="id"
-            label="编号"
-        >
+            label="编号">
         </el-table-column>
         <el-table-column
             prop="name"
@@ -126,6 +129,11 @@
         this.query.page=pagenum
         this.getRoleList()
       },
+      handleExpand(row,ex){
+        console.log(row)
+        console.log(ex)
+      },
+
 
       editClick(row){
 
