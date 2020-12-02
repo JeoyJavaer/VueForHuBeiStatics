@@ -19,7 +19,7 @@
               v-model="query.recName">
           </el-input>
         </el-col>
-        <el-col :span="12">
+        <el-col :span="14">
           <div>
             <span class="left-margin15">日期:</span>
             <el-date-picker

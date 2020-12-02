@@ -44,7 +44,7 @@
         </el-col>
 
 
-        <el-col :span="12">
+        <el-col :span="13">
           <span class="left-margin15">时间:</span>
           <!--日期选择框-->
           <el-date-picker

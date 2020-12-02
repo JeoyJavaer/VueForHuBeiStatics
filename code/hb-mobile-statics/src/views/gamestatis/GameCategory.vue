@@ -9,7 +9,7 @@
     <el-card>
       <el-row>
         <!--日期选择框-->
-        <el-col :span="16">
+        <el-col :span="18">
           <div>
             <span class="cp-span">分类:</span>
             <el-select class="left-margin15" v-model="query.cp" placeholder="游戏分类" @change="optionChange">

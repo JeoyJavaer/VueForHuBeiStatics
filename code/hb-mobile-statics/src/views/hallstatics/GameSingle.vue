@@ -32,7 +32,7 @@
 
         <el-col :span="16">
           <!--用户行为选择器-->
-          <span class="left-margin15">所属CP:</span>
+          <span >所属CP:</span>
           <el-select v-model="query.cpId" placeholder="请选择" @change="optionChange">
             <el-option
                 v-for="item in cpList"

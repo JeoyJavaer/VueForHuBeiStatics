@@ -1,6 +1,7 @@
 package gaea.hubeimobile.statics.controller;
 
 import gaea.hubeimobile.statics.base.BaseResponse;
+import gaea.hubeimobile.statics.common.Result;
 import gaea.hubeimobile.statics.pojo.User;
 import gaea.hubeimobile.statics.service.IUserService;
 import gaea.hubeimobile.statics.utils.StringUtils;
@@ -35,11 +36,12 @@ public class UserController {
     * 获取验证码信息
     * */
     @RequestMapping(value = "/getVerifyCode")
-    public BaseResponse getVerifyCode(HttpServletRequest request) {
+    public Result getVerifyCode(HttpServletRequest request) {
         String code = StringUtils.getCodeString();
         logger.info("getVerifyCode:"+code);
         request.getSession().setAttribute("verifyCode",code);
-        return BaseResponse.success("获取验证码成功",new Code(code));
+//        return BaseResponse.success("获取验证码成功",new Code(code));
+        return  Result.success(new Code(code));
     }
 
 
